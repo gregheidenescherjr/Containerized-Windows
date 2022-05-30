@@ -6,7 +6,15 @@
 
 #Project Initialized by Gregory Heidenescher Jr and Christopher Southerland 5/30/2022
 #The main goal is to create a user experience that exposes as little as possible to the internet while creating a playground for developers.
-#Should anything be comprimised, it was all done in a containment area seperate from the main Windows Installation.
+#Should anything be compromised, it was all done in a containment area seperate from the main Windows Installation.
+#This project will help seperate personal information when browsing the internet through conatinment and compartmentizing applications.
+#We dont need others to see our credentials during a casual browsing session.
+
+#Term Definitions
+#"Secure Sandbox"(Where personal credentials and information is saved and loaded during startup)
+#"UnSecure Sandbox" (Where no credentials are stored during startup)
+
+#This will leave you with templates to create your own sandboxes with your prefered applications, should they have a portable version.
 
 $homee = New-Object System.Management.Automation.Host.ChoiceDescription "&Windows Home Edition","Description."
 $pro = New-Object System.Management.Automation.Host.ChoiceDescription "&Windows Pro Edition","Description."
