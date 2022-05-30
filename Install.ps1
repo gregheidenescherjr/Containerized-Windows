@@ -1,4 +1,8 @@
 #Creating Container Enviornment
+#This will create 2 drives for your conainter experience.
+#From there you will need to watch for the application that install.
+#Some of them need to be mannually installed in their proper locations.
+#The script will give you visual warning with reminders.
 
 #Set File After Restart
 $RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"

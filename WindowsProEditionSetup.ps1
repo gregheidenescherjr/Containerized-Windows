@@ -1,4 +1,5 @@
 #Windows Sandbox Pro Edition
+#This script is for those with Windows Pro editions.
 
 #Create Required Directories
 New-Item "G:\PortableApps" -itemType Directory
@@ -99,7 +100,7 @@ Remove-Item 'G:\PortableApps.com_Platform_Setup_21.2.2.paf.exe'
 #Rebooting With Changes
 Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 $RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + "G:\ContainerApps.ps1")
+set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + "What is the next piece?.ps1")
 Restart-Computer -Wait -For PowerShell -Timeout 300 -Delay 2
 
 

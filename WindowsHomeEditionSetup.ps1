@@ -1,13 +1,15 @@
 #Windows Sandbox Home Edition
+#This script is for those with Windows Home edition.
+
 @echo off
-echo Checking for Admin Privileges
+Write-Host "Checking for Admin Privileges" -ForegroundColor Yellow
 >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
 
 echo Permission check result: %errorlevel%
 
 REM --> If error flag set, we do not have admin.
 if '%errorlevel%' NEQ '0' (
-echo Requesting Administrative Privileges...
+Write-Host "Requesting Administrative Privileges" -ForegroundColor Yellow
 goto UACPrompt
 ) else ( goto gotAdmin )
 
@@ -15,7 +17,7 @@ goto UACPrompt
 echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
 echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
 
-echo Running created temporary "%temp%\getadmin.vbs"
+Write-Host "Created Temporary Admin At "%temp%\getadmin.vbs"" -ForegroundColor Yellow
 timeout /T 2
 "%temp%\getadmin.vbs"
 exit /B
@@ -25,7 +27,7 @@ if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
 pushd "%CD%"
 CD /D "%~dp0" 
 
-echo Admin Privileges Aquired!
+Write-Host "Admin Privileges Aquired!" -ForegroundColor Green
 cls
 Title Windows Sandbox
 pushd "%~dp0"
