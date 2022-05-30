@@ -1,40 +1,18 @@
 #Windows Sandbox Home Edition
 #This script is for those with Windows Home edition.
 
-@echo off
-Write-Host "Checking for Admin Privileges" -ForegroundColor Yellow
->nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+#Windows Sandbox script was created by Benny at Deskmodder.
+#https://www-deskmodder-de.translate.goog/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en-US######
 
-Write-Host "Permission check result: %errorlevel%" -ForegroundColor Yellow
-
-REM --> If error flag set, we do not have admin.
-if '%errorlevel%' NEQ '0' (
-Write-Host "Requesting Administrative Privileges" -ForegroundColor Yellow
-goto UACPrompt
-) else ( goto gotAdmin )
-
-:UACPrompt
-echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
-
-Write-Host "Created Temporary Admin At "%temp%\getadmin.vbs"" -ForegroundColor Yellow
-timeout /T 2
-"%temp%\getadmin.vbs"
-exit /B
-
-:gotAdmin
-if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
-pushd "%CD%"
-CD /D "%~dp0" 
-
-Write-Host "Admin Privileges Aquired!" -ForegroundColor Green
-cls
-Title Windows Sandbox
-pushd "%~dp0"
-dir /b %SystemRoot%\servicing\Packages\*Containers*.mum >sandbox.txt
-for /f %%i in ('findstr /i . sandbox.txt 2^>nul') do dism /online /norestart /add-package:"%SystemRoot%\servicing\Packages\%%i"
-del sandbox.txt
-Dism /online /enable-feature /featurename:Containers-DisposableClientVM /LimitAccess /ALL
+# URL and Destination
+$url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Sourced%Scripts\Windows%Sandbox%Home%Edition%Script\Sandbox%Installer.bat"
+$dest = "G:\"
+# Download file
+Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
+Write-Host "Saved" -ForegroundColor Green
+Start-Process G:\ -Verb RunAs
+Write-Host "End of Bennys Windows Sandbox. Lets Continue." -ForegroundColor Green
+#End of Bennys Windows Sandbox Home Edition script#
 
 #Create Required Directories
 New-Item "G:\PortableApps" -itemType Directory
@@ -67,7 +45,7 @@ start-process -FilePath "$LocalTempDir\np++.exe" -ArgumentList /InstallDirectory
 Write-Host "Notepad++ Installed" -ForegroundColor Green
 
 #Installs ContainerApps
-#Change Installation Destination to ContainerApps Drive
+#Change Installation Destination to ContainerApps Drive!!!
 
 #Mozilla Thunderbird Portable
 Write-Host "Downloading Mozilla Thunderbird Portable" -ForegroundColor Yellow

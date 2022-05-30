@@ -14,7 +14,7 @@
 #"Secure Sandbox"(Where personal credentials and information is saved and loaded during startup)
 #"UnSecure Sandbox" (Where no credentials are stored during startup)
 
-#This will leave you with templates to create your own sandboxes with your prefered applications, should they have a portable version.
+#This will leave you with templates to create your own sandboxes with your prefered applications, should they have a portable version or you want to run them in a contained enviornment.
 
 $homee = New-Object System.Management.Automation.Host.ChoiceDescription "&Windows Home Edition","Description."
 $pro = New-Object System.Management.Automation.Host.ChoiceDescription "&Windows Pro Edition","Description."
@@ -26,11 +26,22 @@ $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 1)
 switch ($rslt) {
 0{
 Write-Host "Windows Home Edition" -ForegroundColor White
+# URL and Destination
+$url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Windows%20Version/WindowsHomeEdition.ps1"
+$dest = "G:\"
+# Download file
+Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
+Write-Host "Saved" -ForegroundColor Green
 #Set File After Restart
 $RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
 set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + "G:\WindowsHomeEditionSetup.ps1")
 }1{
 Write-Host "Windows Pro Edition" -ForegroundColor White
+# URL and Destination
+$url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Windows%20Version/WindowsProEdition.ps1"
+$dest = "G:\"
+# Download file
+Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
 #Set File After Restart
 $RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
 set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + "G:\WindowsProEditionSetup.ps1")
@@ -39,7 +50,7 @@ Write-Host "Cancel" -ForegroundColor Red
 #Need Action
 }
 }
-$mess = "Ready To Adjust Your Home Drive?"
+$mess = "Ready To Resize Your Home Drive?"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 1)
 switch ($rslt) {
 0{
