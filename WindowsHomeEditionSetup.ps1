@@ -5,7 +5,7 @@
 Write-Host "Checking for Admin Privileges" -ForegroundColor Yellow
 >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
 
-echo Permission check result: %errorlevel%
+Write-Host "Permission check result: %errorlevel%" -ForegroundColor Yellow
 
 REM --> If error flag set, we do not have admin.
 if '%errorlevel%' NEQ '0' (
@@ -134,3 +134,10 @@ Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 $RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
 set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + "G:\ContainerApps.ps1")
 Restart-Computer -Wait -For PowerShell -Timeout 300 -Delay 2
+
+
+
+
+#Cleanup Script
+#Write-Host "Deleting a single file"
+#Remove-Item -Path "file location"
