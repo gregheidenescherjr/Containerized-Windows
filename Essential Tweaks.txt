@@ -1,3 +1,7 @@
+#Needs Review
+
+
+
 #Essential Tweaks
 Write-Host "Disabling Telemetry..."
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
