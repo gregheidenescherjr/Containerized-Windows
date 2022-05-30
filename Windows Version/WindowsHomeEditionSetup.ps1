@@ -11,7 +11,7 @@ $dest = "G:\"
 Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
 Write-Host "Saved" -ForegroundColor Green
 Start-Process G:\ -Verb RunAs
-Write-Host "End of Bennys Windows Sandbox. Lets Continue." -ForegroundColor Green
+Write-Host "End of Bennys Windows Sandbox Install Script. Lets Continue..." -ForegroundColor Green
 #End of Bennys Windows Sandbox Home Edition script#
 
 #Create Required Directories
