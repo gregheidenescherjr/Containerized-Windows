@@ -70,3 +70,5 @@ Write-Host "Cancel" -ForegroundColor Red
 }
 
 Restart-Computer -Wait -For PowerShell -Timeout 300 -Delay 2
+
+#31May22 - Windows Firewall... words, take a test, who was that? was I seeing things?
