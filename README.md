@@ -38,7 +38,7 @@ Before proceeding, to enable and use Windows Sandbox, your device must meet the 
 
 5. 4GB of RAM (8GB is recommended).
 
-6.1GB of HDD space (SSD is recommended).
+6. 1GB of HDD space (SSD is recommended).
 
 ***HHD Space***
 
