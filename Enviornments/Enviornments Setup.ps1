@@ -7,6 +7,8 @@
 $url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/Secure%Internet.wsb"
 $url2 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/UnSecure%Internet.wsb" 
 $url3 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/Testing%Zone.wsb"
+$url4 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/DefenderRules.wfw"
+
 $dest = "G:\"
 # Download file
 Start-BitsTransfer -Source $url $url2 $url3 -Destination $dest | Complete-BitsTransfer 
