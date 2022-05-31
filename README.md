@@ -11,6 +11,7 @@ I do frequently crash my computer and have to restore it often, but I think we c
 DO NOT INSTALL THIS YET!!! Please wait for the first inital full release, and feel free to view the files, the first upload was 5/30/2022.
 
 -----Usage-----
+
 Run Install.ps1
 
 -----Minimum Requirements-----
@@ -31,9 +32,11 @@ Before proceeding, to enable and use Windows Sandbox, your device must meet the 
 3. the MaxGB (H:\) will hold your sandbox downloads, they will also have the basic ability share between sandboxes.
 
 -----Credits-----
+
 Gregory Heidenescher - Creator / Tester
 Christopher Southerland - Creator / Tester
 
 -----Special Thanks-----
+
 Benny at Deskmodder - Windows Sanbox Home Edition Script
 Chris Titus (Chris Titus Tech) - For creating a great toolbox with great reccomendations, applications, and organized tweaks that makes this vision easier.
