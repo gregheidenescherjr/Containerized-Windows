@@ -7,3 +7,8 @@ Write-Host "This allows the user to define additional setting within Windows 11 
 iwr -useb https://christitus.com/win | iex
 
 pause
+
+Copy-Item "G:\Secure%Internet.wsb" -Destination "C:\Users\Public\Desktop"
+Copy-Item "G:\UnSecure%Internet.wsb" -Destination "C:\Users\Public\Desktop"
+
+

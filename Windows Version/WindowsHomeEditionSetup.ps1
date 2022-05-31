@@ -15,7 +15,6 @@ Write-Host "End of Bennys Windows Sandbox Install Script. Lets Continue..." -For
 #End of Bennys Windows Sandbox Home Edition script#
 
 pause
-Write-Host "Hit Enter to continue..."
 
 #Create Required Directories
 New-Item "G:\PortableApps" -itemType Directory
