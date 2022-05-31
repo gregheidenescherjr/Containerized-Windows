@@ -97,8 +97,23 @@ start-process -FilePath "G:\PortableApps.com_Platform_Setup_21.2.2.paf.exe" -Ver
 Write-Host "Portable Apps Menu" -ForegroundColor Green
 Remove-Item 'G:\PortableApps.com_Platform_Setup_21.2.2.paf.exe'
 
+#Enviornments Download
+# URL and Destination
+$url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/Secure%Internet.wsb"
+$url2 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/UnSecure%Internet.wsb" 
+$url3 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/Testing%Zone.wsb"
+$url4 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/DefenderRules.wfw"
+$url5 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/Enviornments%Setup.ps1"
+
+$dest = "G:\"
+# Download file
+Start-BitsTransfer -Source $url $url2 $url3 $url4 $url5 -Destination $dest | Complete-BitsTransfer 
+Write-Host "Saved" -ForegroundColor Green
+Write-Host "Enviornments Saved to G:\" -ForegroundColor Green
+
+
 #Rebooting With Changes
 Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 $RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + "What is the next piece?.ps1")
+set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + G:\Enviornments%Setup.ps1")
 Restart-Computer -Wait -For PowerShell -Timeout 300 -Delay 2

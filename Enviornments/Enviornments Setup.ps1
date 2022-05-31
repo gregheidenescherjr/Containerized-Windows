@@ -1,16 +1,9 @@
-#Enviornments
+#Enviornments Setup
 #This script will only pull the enviornments after installation.
 
-#Enviornment Sandboxes
+#Chris Titus Tech Toolbox
+Write-Host "Chris Titus Tech Toolbox"
+Write-Host "This allows the user to define additional setting within Windows 11 relevant to the user."
+iwr -useb https://christitus.com/win | iex
 
-# URL and Destination
-$url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/Secure%Internet.wsb"
-$url2 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/UnSecure%Internet.wsb" 
-$url3 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/Testing%Zone.wsb"
-$url4 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/DefenderRules.wfw"
-
-$dest = "G:\"
-# Download file
-Start-BitsTransfer -Source $url $url2 $url3 -Destination $dest | Complete-BitsTransfer 
-Write-Host "Saved" -ForegroundColor Green
-Write-Host "Enviornments Saved to G:\" -ForegroundColor Green
+pause
