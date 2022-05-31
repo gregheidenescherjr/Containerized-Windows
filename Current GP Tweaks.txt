@@ -1,3 +1,0 @@
-Setting	State	Comment
-Customize message for Access Denied errors	Enabled	No
-Enable access-denied assistance on client for all file types	Not configured	No
