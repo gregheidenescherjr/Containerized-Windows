@@ -6,17 +6,18 @@
 
 # URL and Destination
 $url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Sourced%Scripts\Windows%Sandbox%Home%Edition%Script\Sandbox%Installer.bat"
-$dest = "G:\"
+$dest = "C:\"
 # Download file
 Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
 Write-Host "Saved" -ForegroundColor Green
-Start-Process G:\Sandbox%Installer.bat -Verb RunAs
+Start-Process C:\Sandbox%Installer.bat -Verb RunAs
 Write-Host "End of Bennys Windows Sandbox Install Script. Lets Continue..." -ForegroundColor Green
 #End of Bennys Windows Sandbox Home Edition script#
 
 pause
 
 #Create Required Directories
+New-Item "C:\PortableApps" -itemType Directory
 New-Item "G:\PortableApps" -itemType Directory
 New-Item "G:\Documents" -itemType Directory
 New-Item "H:\Picutres" -itemType Directory
@@ -28,14 +29,14 @@ Write-Host "The Following Apps Create Your Containerized Enviornments" -Foregrou
 #PowerShell
 # URL and Destination
 $url = "https://github.com/PowerShell/PowerShell/releases/download/v7.2.4/PowerShell-7.2.4-win-x64.msi"
-$dest = "G:\"
+$dest = "C:\"
 # Download file
 Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
 Write-Host "Saved" -ForegroundColor Green
 # Install file
-start-process -FilePath "G:\PowerShell-7.2.4-win-x64.msi"
+start-process -FilePath "C:\PowerShell-7.2.4-win-x64.msi"
 Write-Host "PowerShell Installed" -ForegroundColor Green
-Remove-Item 'G:\PowerShell-7.2.4-win-x64.msi'
+Remove-Item 'C:\PowerShell-7.2.4-win-x64.msi'
 
 #Notepad++
 Write-Host "Installing Notepad++" -ForegroundColor Yellow
@@ -43,7 +44,7 @@ $LocalTempDir = $env:TEMP
 $href = ((Invoke-WebRequest -Uri 'https://notepad-plus-plus.org/downloads/').Links | Where-Object { $_.innerText -match 'current version' }).href
 $downloadUrl = ((Invoke-WebRequest "https://notepad-plus-plus.org/$href").Links | Where-Object { $_.innerHTML -match 'installer' -and $_.href -match 'x64.exe' }).href
 Invoke-RestMethod $downloadUrl -OutFile "$LocalTempDir/np++.exe"
-start-process -FilePath "$LocalTempDir\np++.exe" -ArgumentList /InstallDirectoryPath:"G:\PortableApps",/S -Verb runas -Wait
+start-process -FilePath "$LocalTempDir\np++.exe" -ArgumentList /InstallDirectoryPath:"C:\PortableApps",/S -Verb runas -Wait
 Write-Host "Notepad++ Installed" -ForegroundColor Green
 
 #Installs ContainerApps
