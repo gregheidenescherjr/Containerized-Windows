@@ -31,39 +31,39 @@ switch ($rslt) {
 0{
 Write-Host "Windows Home Edition" -ForegroundColor White
 # URL and Destination
-$url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Windows%20Version/WindowsHomeEdition.ps1"
+$url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Windows%20Version/WindowsHomeEditionSetup.ps1"
 $dest = "C:\"
 # Download file
 Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
 Write-Host "Saved" -ForegroundColor Green
 #Set File After Restart
 $RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + "G:\WindowsHomeEditionSetup.ps1")
+set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + "C:\WindowsHomeEditionSetup.ps1")
 }1{
 Write-Host "Windows Pro Edition" -ForegroundColor White
 # URL and Destination
-$url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Windows%20Version/WindowsProEdition.ps1"
+$url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Windows%20Version/WindowsProEditionSetup.ps1"
 $dest = "C:\"
 # Download file
 Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
 #Set File After Restart
 $RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + "G:\WindowsProEditionSetup.ps1")
+set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + "C:\WindowsProEditionSetup.ps1")
 }2{
 Write-Host "Cancel" -ForegroundColor Red
 #Need Action
 }
 }
 $mess = "Ready To Resize Your Home Drive?"
-$rslt = $host.ui.PromptForChoice($heading, $mess, $options2, 1)
+$rslt = $host.ui.PromptForChoice($heading, $mess, $options2, 0)
 switch ($rslt) {
 0{
 Write-Host "Yes" -ForegroundColor Green
 #Create Drives To Containerize
 Write-Host "Creating G and H Drives To Containerize" -ForegroundColor Yellow
-#Resize-Partition -DiskNumber 1 -PartitionNumber 2 -Size 250GB | format-volume -new filesystemlabel Home
-New-Partition -DiskNumber 1 -Size 64GB -DriveLetter G -GptType "{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}" | format-volume -filesystem NTFS -new filesystemlabel ContainerApps
-New-Partition -DiskNumber 1 -Size $MaxSize GB -DriveLetter H -GptType "{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}" | format-volume -filesystem NTFS -new filesystemlabel Downloads
+#Resize-Partition -DiskNumber 0 -PartitionNumber 2 -Size 250GB | format-volume -new filesystemlabel Home
+New-Partition -DiskNumber 0 -Size 32GB -DriveLetter G -GptType "{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}" | format-volume -filesystem NTFS -new filesystemlabel ContainerApps
+New-Partition -DiskNumber 0 -Size $MaxSize GB -DriveLetter H -GptType "{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}" | format-volume -filesystem NTFS -new filesystemlabel Downloads
 Write-Host "Drives Resized, Created, and Formatted." -ForegroundColor Green
 }1{
 Write-Host "No" -ForegroundColor Red
