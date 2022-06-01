@@ -17,10 +17,13 @@
 
 #This will leave you with templates to create your own sandboxes with your prefered applications, should they have a portable version or you want to run them in a contained enviornment.
 
-$homee = New-Object System.Management.Automation.Host.ChoiceDescription "&Windows Home Edition","Description."
-$pro = New-Object System.Management.Automation.Host.ChoiceDescription "&Windows Pro Edition","Description."
+$homee = New-Object System.Management.Automation.Host.ChoiceDescription "&Home Edition","Description."
+$pro = New-Object System.Management.Automation.Host.ChoiceDescription "&Pro Edition","Description."
+$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
+$no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
 $abort = New-Object System.Management.Automation.Host.ChoiceDescription "&Cancel","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($homee, $pro, $abort)
+$options2 = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
 $heading = "Containerized Windows"
 $mess = "What Version Of Windows Do You Have?"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 1)
@@ -29,7 +32,7 @@ switch ($rslt) {
 Write-Host "Windows Home Edition" -ForegroundColor White
 # URL and Destination
 $url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Windows%20Version/WindowsHomeEdition.ps1"
-$dest = "G:\"
+$dest = "C:\"
 # Download file
 Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
 Write-Host "Saved" -ForegroundColor Green
@@ -40,7 +43,7 @@ set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v
 Write-Host "Windows Pro Edition" -ForegroundColor White
 # URL and Destination
 $url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Windows%20Version/WindowsProEdition.ps1"
-$dest = "G:\"
+$dest = "C:\"
 # Download file
 Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
 #Set File After Restart
@@ -52,13 +55,13 @@ Write-Host "Cancel" -ForegroundColor Red
 }
 }
 $mess = "Ready To Resize Your Home Drive?"
-$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 1)
+$rslt = $host.ui.PromptForChoice($heading, $mess, $options2, 1)
 switch ($rslt) {
 0{
 Write-Host "Yes" -ForegroundColor Green
 #Create Drives To Containerize
 Write-Host "Creating G and H Drives To Containerize" -ForegroundColor Yellow
-Resize-Partition -DiskNumber 1 -PartitionNumber 2 -Size 250GB | format-volume -new filesystemlabel Home
+#Resize-Partition -DiskNumber 1 -PartitionNumber 2 -Size 250GB | format-volume -new filesystemlabel Home
 New-Partition -DiskNumber 1 -Size 64GB -DriveLetter G -GptType "{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}" | format-volume -filesystem NTFS -new filesystemlabel ContainerApps
 New-Partition -DiskNumber 1 -Size $MaxSize GB -DriveLetter H -GptType "{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}" | format-volume -filesystem NTFS -new filesystemlabel Downloads
 Write-Host "Drives Resized, Created, and Formatted." -ForegroundColor Green
@@ -70,5 +73,3 @@ Write-Host "Cancel" -ForegroundColor Red
 }
 
 Restart-Computer -Wait -For PowerShell -Timeout 300 -Delay 2
-
-#31May22 - Windows Firewall... words, take a test, who was that? was I seeing things?
