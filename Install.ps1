@@ -63,7 +63,7 @@ Write-Host "Yes" -ForegroundColor Green
 Write-Host "Creating G and H Drives To Containerize" -ForegroundColor Yellow
 #Resize-Partition -DiskNumber 0 -PartitionNumber 2 -Size 250GB | format-volume -new filesystemlabel Home
 New-Partition -DiskNumber 0 -Size 32GB -DriveLetter G -GptType "{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}" | format-volume -filesystem NTFS -new filesystemlabel ContainerApps
-New-Partition -DiskNumber 0 -Size $MaxSize GB -DriveLetter H -GptType "{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}" | format-volume -filesystem NTFS -new filesystemlabel Downloads
+New-Partition -DiskNumber 0 -Size $MaxSizeGB -DriveLetter H -GptType "{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}" | format-volume -filesystem NTFS -new filesystemlabel Downloads
 Write-Host "Drives Resized, Created, and Formatted." -ForegroundColor Green
 }1{
 Write-Host "No" -ForegroundColor Red
@@ -72,4 +72,5 @@ Write-Host "Cancel" -ForegroundColor Red
 }
 }
 
-Restart-Computer -Wait -For PowerShell -Timeout 300 -Delay 2
+Restart-Computer
+#Set-VMProcessor -VMName <VMName> -HwThreadCountPerCore 0

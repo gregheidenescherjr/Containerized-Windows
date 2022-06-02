@@ -11,9 +11,6 @@ New-Item "H:\Downloads" -itemType Directory
 #Installs Windows Host Apps
 Write-Host "The Following Apps Create Your Containerized Enviornments" -ForegroundColor Green
 
-#Windows Sandbox
-Enable-WindowsOptionalFeature -FeatureName "Containers-DisposableClientVM" -All -Online
-
 #PowerShell
 # URL and Destination
 $url = "https://github.com/PowerShell/PowerShell/releases/download/v7.2.4/PowerShell-7.2.4-win-x64.msi"
@@ -22,7 +19,7 @@ $dest = "C:\"
 Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
 Write-Host "Saved" -ForegroundColor Green
 # Install file
-start-process -FilePath "G:\PowerShell-7.2.4-win-x64.msi"
+start-process -FilePath "C:\PowerShell-7.2.4-win-x64.msi"
 Write-Host "PowerShell Installed" -ForegroundColor Green
 Remove-Item 'C:\PowerShell-7.2.4-win-x64.msi'
 
@@ -36,7 +33,7 @@ start-process -FilePath "$LocalTempDir\np++.exe" -ArgumentList /InstallDirectory
 Write-Host "Notepad++ Installed" -ForegroundColor Green
 
 #Installs ContainerApps
-#Change Installation Destination to ContainerApps Drive
+#Change Installation Destination to ContainerApps Drive!!!
 
 #Mozilla Thunderbird Portable
 Write-Host "Downloading Mozilla Thunderbird Portable" -ForegroundColor Yellow
@@ -104,7 +101,7 @@ $url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/
 $url2 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/UnSecure%Internet.wsb" 
 $url3 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/Testing%Zone.wsb"
 $url4 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/DefenderRules.wfw"
-$url5 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/Enviornments%Setup.ps1"
+$url5 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/EnviornmentsSetup.ps1"
 
 $dest = "G:\"
 # Download file
@@ -116,5 +113,5 @@ Write-Host "Enviornments Saved to G:\" -ForegroundColor Green
 #Rebooting With Changes
 Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 $RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + G:\Enviornments%Setup.ps1")
-Restart-Computer -Wait -For PowerShell -Timeout 300 -Delay 2
+set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "G:\EnviornmentsSetup.ps1")
+Restart-Computer

@@ -5,16 +5,14 @@
 #https://www-deskmodder-de.translate.goog/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en-US######
 
 # URL and Destination
-$url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Sourced%Scripts\Windows%Sandbox%Home%Edition%Script\Sandbox%Installer.bat"
+$url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Sourced%Scripts\Windows%Sandbox%Home%Edition%Script\SandboxInstaller.bat"
 $dest = "C:\"
 # Download file
 Start-BitsTransfer -Source $url -Destination $dest | Complete-BitsTransfer 
 Write-Host "Saved" -ForegroundColor Green
-Start-Process C:\Sandbox%Installer.bat -Verb RunAs
+Start-Process C:\SandboxInstaller.bat -Verb RunAs
 Write-Host "End of Bennys Windows Sandbox Install Script. Lets Continue..." -ForegroundColor Green
 #End of Bennys Windows Sandbox Home Edition script#
-
-pause
 
 #Create Required Directories
 New-Item "C:\PortableApps" -itemType Directory
@@ -116,7 +114,7 @@ $url = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/
 $url2 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/UnSecure%Internet.wsb" 
 $url3 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/Testing%Zone.wsb"
 $url4 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/DefenderRules.wfw"
-$url5 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/Enviornments%Setup.ps1"
+$url5 = "https://github.com/gregheidenescherjr/Containerized-Windows/tree/master/Enviornments/EnviornmentsSetup.ps1"
 
 $dest = "G:\"
 # Download file
@@ -128,5 +126,5 @@ Write-Host "Enviornments Saved to G:\" -ForegroundColor Green
 #Rebooting With Changes
 Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 $RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-set-itemproperty $RunOnceKey "NextRun" ('C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File ' + G:\Enviornments%Setup.ps1.ps1")
-Restart-Computer -Wait -For PowerShell -Timeout 300 -Delay 2
+set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "G:\EnviornmentsSetup.ps1")
+Restart-Computer
