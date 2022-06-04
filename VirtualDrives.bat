@@ -3,13 +3,13 @@ pause
 select vdisk file=".:\VirtualDrives.vhdx"
 pause
 attach vdisk
-create partition primary size=120000000
-format fs=NTFS label="Virtual Drives" quick
-assign letter=M
+create partition efi size=120000000
+format fs=NTFS label="ContainerApps" quick
+assign letter=G
+automount enable
 pause
-create partition primary size=120000000
-format fs=NTFS label="Virtual Drives" quick
-assign letter=N
-pause
+create partition efi size=120000000
+format fs=NTFS label="Downloads" quick
+assign letter=H
 automount enable
 exit

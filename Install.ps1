@@ -3,14 +3,12 @@
 
 #The main goal is to create a User Experience that exposes as little as possible to the internet while creating a playground for developers.
 #Should anything be compromised, it was all done in a containment area seperate from the main Windows Installation.
-#This project will help seperate personal information when browsing the internet through conatinment and compartmentizing applications.
-#We dont need others to see our credentials during a casual browsing session.
+#This project, combined with good internet practices, will help seperate personal information when browsing the internet through conatinment and compartmentizing applications.
+#We dont need other people to see our credentials during a casual browsing session.
 
 #Term Definitions
 #"Secure Sandbox"(Where personal credentials and information is saved and loaded during startup)
 #"UnSecure Sandbox" (Where no credentials are stored during startup)
-
-#This will leave you with templates to create your own sandboxes with your prefered applications, should they have a portable version or you want to run them in a contained enviornment.
 
 Push-Location $PSScriptRoot
 Invoke-WebRequest -Uri https://github.com/gregheidenescherjr/Containerized-Windows/Install.ps1 -OutFile C:\Install.ps1
@@ -195,7 +193,18 @@ Remove-Item ".\icedragonsetup.exe"
 Remove-Item ".\PortableApps.paf.exe"
 Remove-Item "C:\Install.ps1"
 
-Restart-Computer
+#Complete Setup
+$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Ok","Description."
+$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
+$heading = "Setup Complete"
+$mess = "This will leave you with templates to create your own sandboxes with your prefered applications."
+$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
+switch ($rslt) {
+0{
+	Push-Location $PSScriptRoot
+	Restart-Computer
+}
+}
 
 #Chris Titus Tech Toolbox
 #Write-Host "Chris Titus Tech Toolbox"
