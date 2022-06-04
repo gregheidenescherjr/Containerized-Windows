@@ -13,6 +13,10 @@
 #This will leave you with templates to create your own sandboxes with your prefered applications, should they have a portable version or you want to run them in a contained enviornment.
 
 Push-Location $PSScriptRoot
+Invoke-WebRequest -Uri https://github.com/gregheidenescherjr/Containerized-Windows/Install.ps1 -OutFile C:\Install.ps1
+Invoke-WebRequest -Uri https://github.com/gregheidenescherjr/Containerized-Windows/Hyper-V.bat -OutFile .\Hyper-V.bat
+Invoke-WebRequest -Uri https://github.com/gregheidenescherjr/Containerized-Windows/Sandbox.bat -OutFile .\Sandbox.bat
+Invoke-WebRequest -Uri https://github.com/gregheidenescherjr/Containerized-Windows/VirtualDrives.bat -OutFile .\VirtualDrives.bat
 
 #Root Account Setup
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
@@ -27,16 +31,15 @@ switch ($rslt) {
 	Push-Location $PSScriptRoot
 	New-LocalUser -Name "Root" -Description "Management Account." -root
 	New-LocalUser -Name "User" -Description "User Account." -user
-	Write-Host "Root And User Account Added. Default Passwords = Lowercase Name." -ForegroundColor Green
 }1{
 	Push-Location $PSScriptRoot
 }
 }
 
 #Hyper-V Setup
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
-$no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
-$abort = New-Object System.Management.Automation.Host.ChoiceDescription "&Cancel","Description."
+$homee = New-Object System.Management.Automation.Host.ChoiceDescription "&Home","Description."
+$pro = New-Object System.Management.Automation.Host.ChoiceDescription "&Pro","Description."
+$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Installed","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
 $heading = "Hyper-V Setup"
 $mess = "What Version Of Hyper-V Do You Need?"
@@ -47,22 +50,30 @@ switch ($rslt) {
 	Write-Host "Windows Home" -ForegroundColor Green
 	start-process "cmd.exe" "/c .\Hyper-V.bat"
 	pause
+	#Rebooting With Changes
+	Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
+	$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
+	set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Install.ps1")
 	Restart-Computer
 }1{
 	Push-Location $PSScriptRoot
 	Write-Host "Windows Pro" -ForegroundColor Green
 	Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+	#Rebooting With Changes
+	Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
+	$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
+	set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Install.ps1")
+	Restart-Computer
 }2{
 	Push-Location $PSScriptRoot
-	Write-Host "Hyper-V Enabled" -ForegroundColor Green
 }
 }
 
 #Sandbox Setup
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
-$no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
-$abort = New-Object System.Management.Automation.Host.ChoiceDescription "&Cancel","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
+$homee = New-Object System.Management.Automation.Host.ChoiceDescription "&Home","Description."
+$pro = New-Object System.Management.Automation.Host.ChoiceDescription "&Pro","Description."
+$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Installed","Description."
+$options = [System.Management.Automation.Host.ChoiceDescription[]]($homee, $pro, $yes)
 $heading = "Sandbox Setup"
 $mess = "What Version Of Sandbox Do You Need?"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
@@ -72,11 +83,20 @@ switch ($rslt) {
 	Write-Host "Windows Home Edition" -ForegroundColor Green
 	start-process "cmd.exe" "/c .\Sandbox.bat"
 	pause 
+		#Rebooting With Changes
+		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
+		$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
+		set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Install.ps1")
 	Restart-Computer
 }1{
 	Push-Location $PSScriptRoot
 	Write-Host "Windows Pro Edition" -ForegroundColor Green
 	Enable-WindowsOptionalFeature -FeatureName "Containers-DisposableClientVM" -All -Online
+		#Rebooting With Changes
+		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
+		$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
+		set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Install.ps1")
+	Restart-Computer
 
 }2{
 	Push-Location $PSScriptRoot
@@ -85,55 +105,42 @@ switch ($rslt) {
 }
 
 #Virtual Drives Setup
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
-$no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
-$abort = New-Object System.Management.Automation.Host.ChoiceDescription "&Cancel","Description."
+$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Ok","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
 $heading = "Virtual Drives Setup"
-$mess = "Virtual Drives Setup?"
+$mess = "Virtual Drives Setup"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
-	Write-Host "Windows Home Edition" -ForegroundColor Green
 		#Creating Virtual Drives
 			New-VHD -Path ".\VirtualDrives.vhdx" -Dynamic -SizeBytes 240GB 
-		pause
-	
-		start-process -FilePath ".\virtualdrives.bat"
-		pause
-}1{
-	Push-Location $PSScriptRoot
-	Write-Host "Windows Pro Edition" -ForegroundColor Green
-	Enable-WindowsOptionalFeature -FeatureName "Containers-DisposableClientVM" -All -Online
-
+			pause
+		#Select Drive
+			start-process -FilePath ".\virtualdrives.bat"
+			pause
 }
 }
 
 Push-Location $PSScriptRoot
 
-#Creating Required Directories And Clean Up
-	New-Item ".\PortableApps" -itemType Directory
-	New-Item ".\Documents" -itemType Directory
-	New-Item ".\Picutres" -itemType Directory
-	New-Item ".\Downloads" -itemType Directory
-	Copy-Item ".\Secure%Internet.wsb" -Destination "C:\Users\Public\Desktop"
-	Copy-Item ".\UnSecure%Internet.wsb" -Destination "C:\Users\Public\Desktop"
-	Copy-Item ".\Secure%Internet.wsb" -Destination ".\"
-	Copy-Item ".\Secure%Internet.wsb" -Destination ".\"
-	Remove-Item ".\Secure%Internet.wsb"
-	Remove-Item ".\UnSecure%Internet.wsb"
-	Remove-Item ".\Hyper-V.bat"
-	Remove-Item ".\Sandbox.bat"
-	Remove-Item ".\Virtual Drives.bat"
+#Creating Directories
+New-Item ".\PortableApps" -itemType Directory
+New-Item ".\Documents" -itemType Directory
+New-Item ".\Picutres" -itemType Directory
+New-Item ".\Downloads" -itemType Directory
+#Copying Required Files
+Copy-Item ".\Secure%Internet.wsb" -Destination "C:\Users\Public\Desktop"
+Copy-Item ".\UnSecure%Internet.wsb" -Destination "C:\Users\Public\Desktop"
+Copy-Item ".\Secure%Internet.wsb" -Destination ".\"
+Copy-Item ".\Secure%Internet.wsb" -Destination ".\"
 
 #Recommended Applications
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
-$no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
-$abort = New-Object System.Management.Automation.Host.ChoiceDescription "&Cancel","Description."
+$abort = New-Object System.Management.Automation.Host.ChoiceDescription "&Let Me Choose","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
 $heading = "Recommended Applications"
-$mess = "Would You Like To Install Recommended Applications. Change Installation Destination to ContainerApps Drive!!!"
+$mess = "Install Recommended Applications? If You Do, Change Installation Destination to ContainerApps Drive!!!"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
@@ -144,34 +151,30 @@ switch ($rslt) {
 		#Install file
 			start-process -FilePath ".\PowerShell.msi"
 			Remove-Item '.\PowerShell.msi'
-
 	#Mozilla Thunderbird Portable
 		#Download file
-			Invoke-WebRequest -Uri https://download.sourceforge.net/portableapps/ThunderbirdPortable_91.9.1_English.paf.exe -OutFile .\Thunderbird.exe
+			Invoke-WebRequest -Uri https://download.sourceforge.net/portableapps/ThunderbirdPortable_91.9.1_English.paf.exe -OutFile .\Thunderbird.paf.exe
 		#Install file
-			start-process -FilePath ".\Thunderbird.exe" -Verb runas -Wait
+			start-process -FilePath ".\Thunderbird.paf.exe" -Verb runas -Wait
 			Remove-Item '.\ThunderbirdPortable_91.9.1_English.paf.exe'
-
 	#Comodo Dragon Broswer
 		#Download file
 			Invoke-WebRequest -Uri https://cdn.download.comodo.com/browser/release/dragon/x86/dragonsetup.exe -OutFile .\dragonsetup.exe
 		#Install file
 			start-process -FilePath ".\dragonsetup.exe" -Verb runas -Wait
 			Remove-Item '.\dragonsetup.exe'
-
 	#Ice Dragon Browser
 		#Download file
-	Invoke-WebRequest -Uri https://download.comodo.com/icedragon/update/icedragonsetup.exe -OutFile .\icedragonsetup.exe 
+			Invoke-WebRequest -Uri https://download.comodo.com/icedragon/update/icedragonsetup.exe -OutFile .\icedragonsetup.exe 
 		#Install file
 			start-process -FilePath ".\icedragonsetup.exe" -Verb runas -Wait
 			Remove-Item '.\icedragonsetup.exe'
-
 	#Portable Apps Menu
 		#Download file
-			Invoke-WebRequest -Uri https://sourceforge.net/projects/portableapps/files/PortableApps.com%20Platform/PortableApps.com_Platform_Setup_21.2.2.paf.exe/download?use_mirror=cytranet -OutFile .\PortableApps.exe
+			Invoke-WebRequest -Uri https://sourceforge.net/projects/portableapps/files/PortableApps.com%20Platform/PortableApps.com_Platform_Setup_21.2.2.paf.exe/download?use_mirror=cytranet -OutFile .\PortableApps.paf.exe
 		#Install file
 			start-process -FilePath ".\PortableApps.exe" -Verb runas -Wait
-			Remove-Item '.\PortableApps.com_Platform_Setup_21.2.2.paf.exe'
+			Remove-Item '.\PortableApps.paf.exe'
 
 }1{
 	Push-Location $PSScriptRoot
@@ -179,22 +182,20 @@ switch ($rslt) {
 }
 }
 
+#Cleanup
+Remove-Item ".\Secure%Internet.wsb"
+Remove-Item ".\UnSecure%Internet.wsb"
+Remove-Item ".\Hyper-V.bat"
+Remove-Item ".\Sandbox.bat"
+Remove-Item ".\Virtual Drives.bat"
+Remove-Item ".\PowerShell.msi"
+Remove-Item ".\Thunderbird.paf.exe"
+Remove-Item ".\dragonsetup.exe"
+Remove-Item ".\icedragonsetup.exe"
+Remove-Item ".\PortableApps.paf.exe"
+Remove-Item "C:\Install.ps1"
+
 Restart-Computer
-
-#Rebooting With Changes
-#Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
-#$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-#set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "D:\EnviornmentsSetup.ps1")
-#Restart-Computer
-
-#Notepad++
-#Write-Host "Installing Notepad++" -ForegroundColor Yellow
-#$LocalTempDir = $env:TEMP
-#$href = ((Invoke-WebRequest -Uri 'https://notepad-plus-plus.org/downloads/').Links | Where-Object { $_.innerText -match 'current version' }).href
-#$downloadUrl = ((Invoke-WebRequest "https://notepad-plus-plus.org/$href").Links | Where-Object { $_.innerHTML -match 'installer' -and $_.href -match 'x64.exe' }).href
-#Invoke-RestMethod $downloadUrl -OutFile "$LocalTempDir/np++.exe"
-#start-process -FilePath "$LocalTempDir\np++.exe" -ArgumentList /InstallDirectoryPath:"C:\PortableApps",/S -Verb runas -Wait
-#Write-Host "Notepad++ Installed" -ForegroundColor Green
 
 #Chris Titus Tech Toolbox
 #Write-Host "Chris Titus Tech Toolbox"
