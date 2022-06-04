@@ -3,6 +3,15 @@
 #Gregory Heidenescher Jr - Creator/Tester
 #Christopher Southerland - Contributor/Tester
 
+#Special Thanks
+
+#(VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
+
+#Chris Titus Tech Toolbox
+#Write-Host "Chris Titus Tech Toolbox"
+#Write-Host "This allows the user to define additional setting within Windows 11 relevant to the user."
+#iwr -useb https://christitus.com/win | iex
+
 #The main goal is to create a User Experience that exposes as little as possible to the internet while creating a playground for developers.
 #Should anything be compromised, it was all done in a containment area seperate from the main Windows Installation.
 #This project, combined with good internet practices, will help seperate personal information when browsing the internet through conatinment and compartmentizing applications.
@@ -31,7 +40,9 @@ $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
-	Powershell.exe New-LocalUser -Name "Root" -Description "Management Account." -verb runas
+	
+	PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {New-LocalUser -Name "Root" -Description "Management Account." -verb runas}";
+	
 	New-LocalUser -Name "Live User" -Description "User Account." -verb runas
 }1{
 	Push-Location $PSScriptRoot
@@ -49,14 +60,22 @@ $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
+	
 	PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process "cmd.exe" -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File ""/c .\Hyper-V.bat""'-Verb RunAs}";
+	
+	pause
+	
 	#Rebooting With Changes
 	Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 	$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
 	set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Users\Public\Documents\Install.ps1")
 }1{
 	Push-Location $PSScriptRoot
+	
 	Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+	
+	pause
+	
 	#Rebooting With Changes
 	Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 	$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
@@ -77,8 +96,10 @@ $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
-		PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File ""Sandbox.bat""'-Verb RunAs}";
-		#Rebooting With Changes
+	
+	PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File ""Sandbox.bat""'-Verb RunAs}";
+	
+	#Rebooting With Changes
 		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 		$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
 		set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Users\Public\Documents\Install.ps1")
@@ -86,8 +107,10 @@ switch ($rslt) {
 Restart-Computer
 }1{
 	Push-Location $PSScriptRoot
+	
 	Enable-WindowsOptionalFeature -FeatureName "Containers-DisposableClientVM" -All -Online
-		#Rebooting With Changes
+	
+	#Rebooting With Changes
 		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 		$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
 		set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Users\Public\Documents\Install.ps1")
@@ -105,14 +128,12 @@ $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
-		#Creating Virtual Drives
-			New-VHD -Path ".\VirtualDrives.vhdx" -Dynamic -SizeBytes 240GB 
-			pause
-		#Select Drive
-			diskpart
-			start-process -FilePath ".\virtualdrives.bat" -verb RunAs
-			pause
-		#Create Shortcuts
+		
+		PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\VirtualDrives.ps1""'-Verb RunAs}";
+		
+		Pause
+		
+		#Creating Shortcuts
 			$SourceFilePath = "G:\"
 			$ShortcutPath = "C:\Users\Public\Documents"
 			$WScriptObj = New-Object -ComObject ("WScript.Shell")
@@ -158,23 +179,23 @@ switch ($rslt) {
 		#Install file
 			start-process -FilePath ".\Thunderbird.paf.exe" -verb RunAs
 			Remove-Item '.\Thunderbird.paf.exe'
-	#Comodo Dragon Broswer
+	#Comodo Dragon Broswer - Chrome Based Broswer ("Secure" Line)
 		#Download file
 			Invoke-WebRequest -Uri https://cdn.download.comodo.com/browser/release/dragon/x86/dragonsetup.exe -verb RunAs -OutFile .\dragonsetup.exe
 		#Install file
 			start-process -FilePath ".\dragonsetup.exe" -Verb runas
 			Remove-Item '.\dragonsetup.exe'
-	#Ice Dragon Browser
+	#Ice Dragon Browser - FireFox Based Browser ("UnSecure" Line)
 		#Download file
 			Invoke-WebRequest -Uri https://download.comodo.com/icedragon/update/icedragonsetup.exe -OutFile .\icedragonsetup.exe 
 		#Install file
 			start-process -FilePath ".\icedragonsetup.exe" -Verb runas
 			Remove-Item '.\icedragonsetup.exe'
-	#Portable Apps Menu
+	#Portable Apps Menu - Start Menu Linked To Portable Versions Of Popular Apps
 		#Download file
 			Invoke-WebRequest -Uri https://sourceforge.net/projects/portableapps/files/PortableApps.com%20Platform/PortableApps.com_Platform_Setup_21.2.2.paf.exe/download?use_mirror=cytranet -OutFile .\PortableApps.paf.exe
 		#Install file
-			start-process -FilePath ".\PortableApps.exe" -Verb runas -Wait
+			start-process -FilePath ".\PortableApps.exe" -Verb runas
 			Remove-Item '.\PortableApps.paf.exe'
 }1{
 	Push-Location $PSScriptRoot
@@ -193,7 +214,7 @@ Remove-Item "C:\Users\Public\Documents\Install.ps1"
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Ok","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
 $heading = "Setup Complete"
-$mess = "This will leave you with templates and shortcuts in your Documents folder to create your own sandboxes with your prefered applications. Now restarting,"
+$mess = "Base Settings Applied. Shortcuts are in your Documents folder to create your own sandboxes. Now restarting,"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
@@ -202,7 +223,3 @@ switch ($rslt) {
 }
 }
 
-#Chris Titus Tech Toolbox
-#Write-Host "Chris Titus Tech Toolbox"
-#Write-Host "This allows the user to define additional setting within Windows 11 relevant to the user."
-#iwr -useb https://christitus.com/win | iex
