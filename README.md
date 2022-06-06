@@ -27,7 +27,7 @@ DO NOT INSTALL THIS YET!!! Please wait for the first inital full release, and fe
 
 ***System Requirements***
 
-1. Windows 11 Pro.
+1. Windows 11.
 
 2. Hardware virtualization.
 
