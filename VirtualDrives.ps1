@@ -2,7 +2,7 @@
 
 Push-Location $PSScriptRoot
 
-Function Virtual Drives {
+Function New-Gen2Disk {
 <#
 The disk will be created with these partitions in this order:
 

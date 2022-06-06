@@ -6,6 +6,8 @@
 #Special Thanks
 
 #(VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
+#(Sandbox.bat Home Edition)
+#(Hyper-V Home Edition)
 
 #Chris Titus Tech Toolbox
 #Write-Host "Chris Titus Tech Toolbox"
@@ -30,7 +32,7 @@ Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\Install.ps1" -Destination "C:\Users\Public\Documents"
 
-#Root Account Setup
+#Root Account Setup (Not Working)
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
@@ -41,7 +43,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {New-LocalUser -Name "Root" -Description "Management Account." -verb runas}";
+	PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "New-LocalUser -Name "Root" -Description "Management Account." -verb runas}"
 	
 	New-LocalUser -Name "Live User" -Description "User Account." -verb runas
 }1{
@@ -49,7 +51,7 @@ switch ($rslt) {
 }
 }
 
-#Hyper-V Setup
+#Hyper-V Setup (Not Working)
 $homee = New-Object System.Management.Automation.Host.ChoiceDescription "&Home","Description."
 $pro = New-Object System.Management.Automation.Host.ChoiceDescription "&Pro","Description."
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Installed","Description."
@@ -61,7 +63,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process "cmd.exe" -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File ""/c .\Hyper-V.bat""'-Verb RunAs}";
+	Start-Process "cmd.exe" -ArgumentList ' -ExecutionPolicy "Unrestricted" -File "".\Hyper-V.bat""'-Verb RunAs
 	
 	pause
 	
@@ -74,8 +76,6 @@ switch ($rslt) {
 	
 	Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 	
-	pause
-	
 	#Rebooting With Changes
 	Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 	$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
@@ -85,7 +85,7 @@ switch ($rslt) {
 }
 }
 
-#Sandbox Setup
+#Sandbox Setup (Not Working)
 $homee = New-Object System.Management.Automation.Host.ChoiceDescription "&Home","Description."
 $pro = New-Object System.Management.Automation.Host.ChoiceDescription "&Pro","Description."
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Installed","Description."
@@ -97,7 +97,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File ""Sandbox.bat""'-Verb RunAs}";
+	Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File ""Sandbox.bat""'-Verb RunAs
 	
 	#Rebooting With Changes
 		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
@@ -119,45 +119,36 @@ Restart-Computer
 }
 }
 
-#Virtual Drives Setup
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Ok","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
-$heading = "Virtual Drives Setup"
-$mess = "Virtual Drives Setup"
-$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
-switch ($rslt) {
-0{
-	Push-Location $PSScriptRoot
-		
-		PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\VirtualDrives.ps1""'-Verb RunAs}";
-		
-		Pause
-		
-		#Creating Shortcuts
-			$SourceFilePath = "G:\"
-			$ShortcutPath = "C:\Users\Public\Documents"
-			$WScriptObj = New-Object -ComObject ("WScript.Shell")
-			$shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
-			$shortcut.TargetPath = $SourceFilePath
-			$shortcut.Save()
-			$SourceFilePath = "H:\"
-			$ShortcutPath = "C:\Users\Public\Documents"
-			$WScriptObj = New-Object -ComObject ("WScript.Shell")
-			$shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
-			$shortcut.TargetPath = $SourceFilePath
-			$shortcut.Save()
-}
-}
-
+#Virtual Drives Setup (Not Working)
 Push-Location $PSScriptRoot
+$vhdpath = ".\ContainerApps.vhdx"
+$vhdsize = 12GB
+New-VHD -Path $vhdpath -Dynamic -SizeBytes $vhdsize | Mount-VHD -Passthru |Initialize-Disk -Passthru |New-Partition -AssignDriveLetter 'G' -UseMaximumSize |Format-Volume -FileSystem NTFS -Confirm:$false -Force
+			
+$vhdpath = ".\Downloads.vhdx"
+$vhdsize = 12GB
+New-VHD -Path $vhdpath -Dynamic -SizeBytes $vhdsize | Mount-VHD -Passthru |Initialize-Disk -Passthru |New-Partition -AssignDriveLetter 'H' -UseMaximumSize |Format-Volume -FileSystem NTFS -Confirm:$false -Force
+
+#Creating Shortcuts
+$SourceFilePath = "G:\"
+$ShortcutPath = "C:\Users\Public\Documents"
+$WScriptObj = New-Object -ComObject ("WScript.Shell")
+$shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
+$shortcut.TargetPath = $SourceFilePath
+$shortcut.Save()
+$SourceFilePath = "H:\"
+$ShortcutPath = "C:\Users\Public\Documents"
+$WScriptObj = New-Object -ComObject ("WScript.Shell")
+$shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
+$shortcut.TargetPath = $SourceFilePath
+$shortcut.Save()
 
 #Creating Directories
-New-Item -FilePath ".\PortableApps" -itemType Directory
-New-Item -FilePath ".\Documents" -itemType Directory
-New-Item -FilePath ".\Picutres" -itemType Directory
-New-Item -FilePath ".\Downloads" -itemType Directory
+#New-Item -FilePath "H:\Documents" -itemType Directory
+#New-Item -FilePath "H:\Picutres" -itemType Directory
+#New-Item -FilePath "H:\Downloads" -itemType Directory
 
-#Recommended Applications
+#Recommended Applications (Functioning Properly)
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $abort = New-Object System.Management.Automation.Host.ChoiceDescription "&Let Me Choose","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
