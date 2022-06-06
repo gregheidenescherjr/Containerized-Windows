@@ -6,7 +6,7 @@
 #Special Thanks
 
 #(VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
-#(Sandbox.bat Home Edition)
+#(Sandbox.bat Home Edition) Benny from Deskmodder @
 #(Hyper-V Home Edition)
 
 #Chris Titus Tech Toolbox
