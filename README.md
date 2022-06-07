@@ -56,6 +56,9 @@ Christopher Southerland - Creator / Tester
 -----Special Thanks-----
 
 (VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
+
 (Sandbox.bat Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
+
 (Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
+
 Chris Titus (Chris Titus Tech) - For creating a great toolbox with great reccomendations, applications, and organized tweaks that makes this vision easier.
