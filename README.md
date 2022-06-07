@@ -14,14 +14,18 @@ So I switched over to Windows Sandbox and started creating my enviornments to pl
 
 The best part of this project is I can focus on my activity without exposing the rest of the PC, within reason.
 
+
 I do frequently crash my computer and have to restore it often, but I think we can head into a better OS in general.
+
 
 -----Usage-----
 Extract to your desired location of preperation.
 
-Right-Click Run Install.ps1
+Right-Click Install.ps1, Run with Powershell
 
-DO NOT INSTALL THIS YET!!! Please wait for the first inital full release, and feel free to view the files, the first upload was 5/30/2022.
+DO NOT INSTALL THIS YET!!!
+
+Please wait for the first inital full release, and feel free to view the files, the first upload was 5/30/2022.
 
 -----Minimum Requirements-----
 
@@ -51,6 +55,7 @@ Christopher Southerland - Creator / Tester
 
 -----Special Thanks-----
 
-Benny at Deskmodder - Windows Sandbox Home Edition Script
-
+(VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
+(Sandbox.bat Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
+(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
 Chris Titus (Chris Titus Tech) - For creating a great toolbox with great reccomendations, applications, and organized tweaks that makes this vision easier.

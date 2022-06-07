@@ -3,11 +3,7 @@
 #Gregory Heidenescher Jr - Creator/Tester
 #Christopher Southerland - Contributor/Tester
 
-#Special Thanks
 
-#(VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
-#(Sandbox.bat Home Edition) Benny from Deskmodder @
-#(Hyper-V Home Edition)
 
 #Chris Titus Tech Toolbox
 #Write-Host "Chris Titus Tech Toolbox"
@@ -256,3 +252,8 @@ switch ($rslt) {
 }
 }
 
+#Special Thanks
+
+#(VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
+#(Sandbox.bat Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
+#(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
