@@ -23,14 +23,19 @@
 #"Secure Sandbox"(Where personal credentials and information is saved and loaded during startup)
 #"UnSecure Sandbox" (Where no credentials are stored during startup)
 
-PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Containerize.ps1""'-Verb RunAs}";
-
 Push-Location $PSScriptRoot
+Set-ExecutionPolicy -ExecutionPolicy "Unrestricted" -Scope CurrentUser
+
+#PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
+
+#PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Modules.ps1""'-Verb RunAs}";
+
 
 #Copying Required Files
 Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\Install.ps1" -Destination "C:\Users\Public\Documents"
+Copy-Item ".\AutoMountVDrives.xml" -Destination "C:\Users\Public\Documents"
 
 #Root Account Setup (Not Working)
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
@@ -43,7 +48,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "New-LocalUser -Name "Root" -Description "Management Account." -verb runas}"
+		PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "New-LocalUser -Name "Root" -Description "Management Account." -verb runas}"
 	
 	New-LocalUser -Name "Live User" -Description "User Account." -verb runas
 }1{
@@ -103,7 +108,6 @@ switch ($rslt) {
 		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 		$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
 		set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Users\Public\Documents\Install.ps1")
-	pause
 Restart-Computer
 }1{
 	Push-Location $PSScriptRoot
@@ -114,30 +118,68 @@ Restart-Computer
 		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 		$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
 		set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Users\Public\Documents\Install.ps1")
+Restart-Computer
 }2{
 	Push-Location $PSScriptRoot
 }
 }
 
-#Virtual Drives Setup (Not Working)
+#Virtual Drives Setup (Super Jank... Needs Improvement)
+#Works Properly with Diskpart Commands, Why Can't Diskpart SideLoad Properly?
 Push-Location $PSScriptRoot
-$vhdpath = ".\ContainerApps.vhdx"
-$vhdsize = 12GB
-New-VHD -Path $vhdpath -Dynamic -SizeBytes $vhdsize | Mount-VHD -Passthru |Initialize-Disk -Passthru |New-Partition -AssignDriveLetter 'G' -UseMaximumSize |Format-Volume -FileSystem NTFS -Confirm:$false -Force
-			
-$vhdpath = ".\Downloads.vhdx"
-$vhdsize = 12GB
-New-VHD -Path $vhdpath -Dynamic -SizeBytes $vhdsize | Mount-VHD -Passthru |Initialize-Disk -Passthru |New-Partition -AssignDriveLetter 'H' -UseMaximumSize |Format-Volume -FileSystem NTFS -Confirm:$false -Force
+New-VHD -Path "C:\Users\Public\Documents\VirtualDrives.vhdx" -SizeBytes 240GB
+	#Diskpart
+	#select vdisk file="C:\Users\Public\Documents\VirtualDrives.vhdx"
+	#attach vdisk
+	#rem == 1. ContainerApps Drive =========================
+	#create partition primary
+	#format quick fs=ntfs label="ContainerApps"
+	#assign letter="G"
+	#rem == 2. Downloads Drive =========================
+	#create partition primary
+	#format quick fs=ntfs label="ContainerApps"
+	#assign letter="H"
+	#exit
+
+
+Start-Process -FilePath 'C:\Users\Public\Documents\VirtualDrives.vhdx' -Wait -Passthru | Out-Null
+
+pause
+
+Write-Host "The error is normal. Disk Management will open up, and you will need to finish the virtual drive setup. (Initializing - Assigning Next Available Disk Number)" -foregroundcolor "yellow"
+Write-Host "Right-click on the unassigned space and select New Simple Volume option (Half Size for G: "ContainerApps" and Half Size for H: "Downloads")." -foregroundcolor "yellow"
+Write-Host "Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "yellow"
+Write-Host "Create New Simple Volume (Max Size) And Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "yellow"
+Write-Host "Select Format this volume with the other settings option and make sure the other options are selected like (file system, Allocation Unit Size, and Volume Label etc). Click Next >> Finish." -foregroundcolor "yellow"
+Write-Host "The error is normal. Disk Management will open up, and you will need to finish the virtual drive setup. (Initializing - Assigning Next Available Disk Number)" -foregroundcolor "red"
+Write-Host "Right-click on the unassigned space and select New Simple Volume option (Half Size for G: "ContainerApps" and Half Size for H: "Downloads")." -foregroundcolor "red"
+Write-Host "Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "red"
+Write-Host "Create New Simple Volume (Max Size) And Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "red"
+Write-Host "Select Format this volume with the other settings option and make sure the other options are selected like (file system, Allocation Unit Size, and Volume Label etc). Click Next >> Finish." -foregroundcolor "red"
+Write-Host "The error is normal. Disk Management will open up, and you will need to finish the virtual drive setup. (Initializing - Assigning Next Available Disk Number)" -foregroundcolor "yellow"
+Write-Host "Right-click on the unassigned space and select New Simple Volume option (Half Size for G: "ContainerApps" and Half Size for H: "Downloads")." -foregroundcolor "yellow"
+Write-Host "Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "yellow"
+Write-Host "Create New Simple Volume (Max Size) And Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "yellow"
+Write-Host "Select Format this volume with the other settings option and make sure the other options are selected like (file system, Allocation Unit Size, and Volume Label etc). Click Next >> Finish." -foregroundcolor "yellow"
+
+pause
+
+diskmgmt.msc
+
+pause
+
+#AutoMount Drive At Startup
+Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
 
 #Creating Shortcuts
 $SourceFilePath = "G:\"
-$ShortcutPath = "C:\Users\Public\Documents"
+$ShortcutPath = "C:\Users\Public\Documents\ContainerApps.lnk"
 $WScriptObj = New-Object -ComObject ("WScript.Shell")
 $shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
 $shortcut.TargetPath = $SourceFilePath
 $shortcut.Save()
 $SourceFilePath = "H:\"
-$ShortcutPath = "C:\Users\Public\Documents"
+$ShortcutPath = "C:\Users\Public\Documents\Downloads.lnk"
 $WScriptObj = New-Object -ComObject ("WScript.Shell")
 $shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
 $shortcut.TargetPath = $SourceFilePath
