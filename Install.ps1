@@ -3,13 +3,6 @@
 #Gregory Heidenescher Jr - Creator/Tester
 #Christopher Southerland - Contributor/Tester
 
-
-
-#Chris Titus Tech Toolbox
-#Write-Host "Chris Titus Tech Toolbox"
-#Write-Host "This allows the user to define additional setting within Windows 11 relevant to the user."
-#iwr -useb https://christitus.com/win | iex
-
 #The main goal is to create a User Experience that exposes as little as possible to the internet while creating a playground for developers.
 #Should anything be compromised, it was all done in a containment area seperate from the main Windows Installation.
 #This project, combined with good internet practices, will help seperate personal information when browsing the internet through conatinment and compartmentizing applications.
@@ -19,13 +12,12 @@
 #"Secure Sandbox"(Where personal credentials and information is saved and loaded during startup)
 #"UnSecure Sandbox" (Where no credentials are stored during startup)
 
-Push-Location $PSScriptRoot
-Set-ExecutionPolicy -ExecutionPolicy "Unrestricted" -Scope CurrentUser
+PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
 
-#PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
+Push-Location $PSScriptRoot
+#Set-ExecutionPolicy -ExecutionPolicy "Unrestricted" -Scope CurrentUser
 
 #PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Modules.ps1""'-Verb RunAs}";
-
 
 #Copying Required Files
 Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Documents"
@@ -44,9 +36,10 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-		PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "New-LocalUser -Name "Root" -Description "Management Account." -verb runas}"
+	New-LocalUser -Name "Root" -FullName "Root Admin" -Description "Management Account."
+	Get-LocalUser -Name "Root" | Enable-LocalUser
+	Add-LocalGroupMember -Group "Administrators" -Member "Root"
 	
-	New-LocalUser -Name "Live User" -Description "User Account." -verb runas
 }1{
 	Push-Location $PSScriptRoot
 }
@@ -124,19 +117,20 @@ Restart-Computer
 #Works Properly with Diskpart Commands, Why Can't Diskpart SideLoad Properly?
 Push-Location $PSScriptRoot
 New-VHD -Path "C:\Users\Public\Documents\VirtualDrives.vhdx" -SizeBytes 240GB
-	#Diskpart
-	#select vdisk file="C:\Users\Public\Documents\VirtualDrives.vhdx"
-	#attach vdisk
-	#rem == 1. ContainerApps Drive =========================
-	#create partition primary
-	#format quick fs=ntfs label="ContainerApps"
-	#assign letter="G"
-	#rem == 2. Downloads Drive =========================
-	#create partition primary
-	#format quick fs=ntfs label="ContainerApps"
-	#assign letter="H"
-	#exit
-
+#Diskpart
+#select vdisk file="C:\Users\Public\Documents\VirtualDrives.vhdx"
+#attach vdisk
+#rem == 1. ContainerApps Drive =========================
+#create partition primary
+#format quick fs=ntfs label="ContainerApps"
+#assign letter="G"
+#automount enable
+#rem == 2. Downloads Drive =========================
+#create partition primary
+#format quick fs=ntfs label="ContainerApps"
+#assign letter="H"
+#automount enable
+#exit
 
 Start-Process -FilePath 'C:\Users\Public\Documents\VirtualDrives.vhdx' -Wait -Passthru | Out-Null
 
@@ -165,7 +159,7 @@ diskmgmt.msc
 pause
 
 #AutoMount Drive At Startup
-Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
+#Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
 
 #Creating Shortcuts
 $SourceFilePath = "G:\"
@@ -238,6 +232,7 @@ Remove-Item ".\Hyper-V.bat"
 Remove-Item ".\Sandbox.bat"
 Remove-Item ".\Virtual Drives.bat"
 Remove-Item "C:\Users\Public\Documents\Install.ps1"
+Remove-Item "C:\Users\Public\Documents"
 
 #Complete Setup
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Ok","Description."
@@ -257,3 +252,8 @@ switch ($rslt) {
 #(VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
 #(Sandbox.bat Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
 #(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
+
+#Chris Titus Tech Toolbox
+#Write-Host "Chris Titus Tech Toolbox"
+#Write-Host "This allows the user to define additional setting within Windows 11 relevant to the user."
+#iwr -useb https://christitus.com/win | iex
