@@ -18,9 +18,11 @@ The best part of this project is I can focus on my activity without exposing the
 I do frequently crash my computer and have to restore it often, but I think we can head into a better OS in general.
 
 -----To Do-----
+
 View Issues Link
 
 -----Usage-----
+
 Extract to your desired location of preperation.
 
 Right-Click Install.ps1, Run with Powershell
