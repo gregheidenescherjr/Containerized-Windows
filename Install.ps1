@@ -17,7 +17,6 @@
 PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
 
 Push-Location $PSScriptRoot
-#Set-ExecutionPolicy -ExecutionPolicy "Unrestricted" -Scope CurrentUser
 
 #Copying Required Files
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
@@ -30,7 +29,6 @@ switch ($rslt) {
 Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\Install.ps1" -Destination "C:\Users\Public\Documents"
-Copy-Item ".\AutoMountVDrives.xml" -Destination "C:\Users\Public\Documents"
 }
 }
 
@@ -259,7 +257,6 @@ Remove-Item ".\Hyper-V.bat"
 Remove-Item ".\Sandbox.bat"
 Remove-Item ".\Virtual Drives.bat"
 Remove-Item "C:\Users\Public\Documents\Install.ps1"
-Remove-Item "C:\Users\Public\Documents\AutoMountVDrives.xml"
 Restart-Computer
 }
 }
