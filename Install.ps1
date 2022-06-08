@@ -25,7 +25,7 @@ Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\Install.ps1" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\AutoMountVDrives.xml" -Destination "C:\Users\Public\Documents"
 
-#Root Account Setup (Not Working)
+#Root Account Setup (Works Properly)
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
@@ -36,9 +36,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	New-LocalUser -Name "Root" -FullName "Root Admin" -Description "Management Account."
-	Get-LocalUser -Name "Root" | Enable-LocalUser
-	Add-LocalGroupMember -Group "Administrators" -Member "Root"
+	Start-Process "cmd.exe" -File ".\Users.bat" -Verb RunAs
 	
 }1{
 	Push-Location $PSScriptRoot
@@ -57,7 +55,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	Start-Process "cmd.exe" -ArgumentList ' -ExecutionPolicy "Unrestricted" -File "".\Hyper-V.bat""'-Verb RunAs
+	Start-Process "cmd.exe" -File ".\Hyper-V.bat" -Verb RunAs
 	
 	pause
 	
@@ -74,6 +72,7 @@ switch ($rslt) {
 	Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
 	$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
 	set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Users\Public\Documents\Install.ps1")
+
 }2{
 	Push-Location $PSScriptRoot
 }
@@ -91,7 +90,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File ""Sandbox.bat""'-Verb RunAs
+	Start-Process "cmd.exe" -File "Sandbox.bat" -Verb RunAs
 	
 	#Rebooting With Changes
 		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
