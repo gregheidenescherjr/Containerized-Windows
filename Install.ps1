@@ -25,7 +25,7 @@ Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\Install.ps1" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\AutoMountVDrives.xml" -Destination "C:\Users\Public\Documents"
 
-#Root Account Setup (Works Properly)
+#Root Account Setup (Functioning Properly)
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
