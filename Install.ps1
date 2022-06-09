@@ -43,7 +43,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	Start-Process "cmd.exe" -File ".\Users.bat" -Verb RunAs
+	Start-Process "cmd.exe" -File ".\Scripts\Users.bat" -Verb RunAs
 	
 }1{
 	Push-Location $PSScriptRoot
@@ -62,7 +62,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	Start-Process -File ".\Sandbox.bat" -Verb RunAs
+	Start-Process -File ".\Scripts\Sandbox.bat" -Verb RunAs
 	
 	#Rebooting With Changes
 		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
@@ -94,7 +94,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	Start-Process -File ".\Hyper-V.bat" -Verb RunAs
+	Start-Process -File ".\Scripts\Hyper-V.bat" -Verb RunAs
 	
 	#Rebooting With Changes
 	Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
@@ -262,11 +262,8 @@ switch ($rslt) {
 0{
 Push-Location $PSScriptRoot
 #Cleanup
-Remove-Item ".\Secure%Internet.wsb"
-Remove-Item ".\UnSecure%Internet.wsb"
-Remove-Item ".\Hyper-V.bat"
-Remove-Item ".\Sandbox.bat"
-Remove-Item ".\Virtual Drives.bat"
+Remove-Item ".\Shortcuts"
+Remove-Item ".\Scripts"
 Remove-Item "C:\Users\Public\Documents\Install.ps1"
 Restart-Computer
 }
@@ -277,6 +274,10 @@ Restart-Computer
 #(VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
 #(Sandbox.bat Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
 #(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
+
+#Community Effort Tools
+#Tor Network
+#System Hardening
 
 #Chris Titus Tech Toolbox
 #Write-Host "Chris Titus Tech Toolbox"
