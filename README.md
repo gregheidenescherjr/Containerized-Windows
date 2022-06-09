@@ -4,7 +4,7 @@ Fedora/Qubes Inspired Project for Windows. I know it will not reach their level 
 
 The average person should not have to woory about random attacks on their personal files. This is to help increase best practices for the average user. Advanced users all have their own tweaks.
 
-Unfortunatly, Window and Linux are still still need more growing pains.  With this project, everyone may rethink computer practices, or even the User Interface.
+Unfortunatly, Windows and Linux still need more growing pains.  With this project, everyone may rethink computer practices, or the User Interface.
 
 Basically, if you use this Mod/Setup, you are using the same desktop experience as me. A distro/flavor if you will indulge the idea.  
 
