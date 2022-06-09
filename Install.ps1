@@ -43,7 +43,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	Start-Process "cmd.exe" -File ".\Scripts\Users.bat" -Verb RunAs
+	Start-Process "cmd.exe" -File ".\Containerize\Scripts\Users.bat" -Verb RunAs
 	
 }1{
 	Push-Location $PSScriptRoot
@@ -62,7 +62,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	Start-Process -File ".\Scripts\Sandbox.bat" -Verb RunAs
+	Start-Process -File ".\Containerize\Scripts\Sandbox.bat" -Verb RunAs
 	
 	#Rebooting With Changes
 		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
@@ -82,7 +82,7 @@ switch ($rslt) {
 }
 }
 
-#Hyper-V Setup (Not Working)
+#Hyper-V Setup
 $homee = New-Object System.Management.Automation.Host.ChoiceDescription "&Home","Description."
 $pro = New-Object System.Management.Automation.Host.ChoiceDescription "&Pro","Description."
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Installed","Description."
@@ -94,7 +94,7 @@ switch ($rslt) {
 0{
 	Push-Location $PSScriptRoot
 	
-	Start-Process -File ".\Scripts\Hyper-V.bat" -Verb RunAs
+	Start-Process -File ".\Containerize\Scripts\Hyper-V.bat" -Verb RunAs
 	
 	#Rebooting With Changes
 	Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
@@ -165,9 +165,6 @@ Write-Host "Select Format this volume with the other settings option and make su
 pause
 diskmgmt.msc
 pause
-
-#AutoMount Drives At Startup
-#Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
 
 #Creating Shortcuts and Directories
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
@@ -245,13 +242,6 @@ switch ($rslt) {
 }
 }
 
-
-
-
-
-
-
-
 #Setup Complete
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
@@ -265,6 +255,14 @@ Push-Location $PSScriptRoot
 Remove-Item ".\Shortcuts"
 Remove-Item ".\Scripts"
 Remove-Item "C:\Users\Public\Documents\Install.ps1"
+
+#AutoMount Drives At Startup
+#Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
+
+
+
+
+
 Restart-Computer
 }
 }
