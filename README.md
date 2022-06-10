@@ -1,5 +1,7 @@
 Containerized-Windows
 
+CURRENTLY NIGHTLY BUILDS AVAILABLE ONLY!!! USE AT YOUR OWN RISK!!!
+
 Fedora/Qubes Inspired Project for Windows. I know it will not reach their level but,I am adopting as many ideas as I can to bridge the experience. 
 
 The average person should not have to woory about random attacks on their personal files. This is to help increase best practices for the average user. Advanced users all have their own tweaks.
@@ -23,11 +25,9 @@ View Issues Link
 
 -----Usage-----
 
-Extract to your desired location of preperation.
+Extract to your desired location of Preperation-H.
 
-Right-Click Install.ps1, Run with Powershell
-
-DO NOT INSTALL THIS YET!!!
+Right-Click Install.ps1, Run with Powershell (Designed as Non-Admin).
 
 Please wait for the first inital full release, and feel free to view the files, the first upload was 5/30/2022.
 
