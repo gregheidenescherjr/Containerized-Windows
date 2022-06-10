@@ -4,6 +4,7 @@
 #Christopher Southerland - Contributor/Tester
 
 #Somehow this thing is working... it's ugly... but its working...
+#Consider an Alpha (Dirty Install) and Stable (Public Install)
 
 #The main goal is to create a User Experience that exposes as little as possible to the internet while creating a playground for developers.
 #Should anything be compromised, it was all done in a containment area seperate from the main Windows Installation.
