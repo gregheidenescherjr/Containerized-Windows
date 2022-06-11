@@ -3,6 +3,14 @@
 #Gregory Heidenescher Jr - Creator/Tester
 #Christopher Southerland - Contributor/Tester
 
+#Tested On:
+#Edition	Windows 11 Pro
+#Version	21H2
+#Installed on	‎2/‎28/‎2022
+#OS build	22000.708
+#Experience	Windows Feature Experience Pack 1000.22000.708.0
+
+
 #Somehow this thing is working... it's ugly... but its working...
 #Consider an Alpha (Dirty Install) and Stable (Public Install)
 
