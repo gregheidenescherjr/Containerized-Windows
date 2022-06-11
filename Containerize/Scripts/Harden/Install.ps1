@@ -781,9 +781,6 @@ Start-Job -Name "Disable Telemetry and Services" -ScriptBlock {
     Stop-Service "Razer Game Scanner Service"
     Set-Service  "Razer Game Scanner Service" -StartupType Disabled
 
-    #Disable Windows Password Reveal Option
-    Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\CredUI" -Name DisablePasswordReveal -Type "DWORD" -Value 1 -Force
-
     #Disable PowerShell 7+ Telemetry
     $POWERSHELL_Telemetry_OPTOUT = $true
     [System.Environment]::SetEnvironmentVariable('POWERSHELL_Telemetry_OPTOUT', 1 , [System.EnvironmentVariableTarget]::Machine)
@@ -871,8 +868,6 @@ Start-Job -Name "Disable Telemetry and Services" -ScriptBlock {
     Set-Service "MapsBroker" -StartupType Disabled
     Stop-Service "DoSvc"
     Set-Service "DoSvc" -StartupType Disabled
-    Stop-Service "OneSyncSvc"
-    Set-Service "OneSyncSvc" -StartupType Disabled
     Stop-Service "UnistoreSvc"
     Set-Service "UnistoreSvc" -StartupType Disabled
 }

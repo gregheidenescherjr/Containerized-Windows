@@ -283,5 +283,5 @@ Restart-Computer
 #Write-Host "This allows the user to define additional setting within Windows 11 relevant to the user."
 #iwr -useb https://christitus.com/win | iex
 
-
+#Get-AppXPackage *bingweather* | Remove-AppXPackage
 
