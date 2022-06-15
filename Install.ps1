@@ -3,7 +3,11 @@
 #Gregory Heidenescher Jr - Creator/Tester
 #Christopher Southerland - Contributor/Tester
 
-#Hey Greg. Its myself....Priority: Integrate Windows Feedback hub. Remember your memory is slipping.  Just be careful. One day At A Time...
+#Special Thanks
+
+#(VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
+#(Sandbox.bat Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
+#(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
 
 #Tested On:
 #Edition	Windows 11 Pro
@@ -279,11 +283,7 @@ Restart-Computer
 }
 }
 
-#Special Thanks
 
-#(VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
-#(Sandbox.bat Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
-#(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
 
 #Community Effort Tools
 #Tor Network
@@ -291,7 +291,7 @@ Restart-Computer
 
 #Chris Titus Tech Toolbox
 #Write-Host "Chris Titus Tech Toolbox"
-#Write-Host "This allows the user to define additional setting within Windows 11 relevant to the user."
+#Write-Host "This allows the user to define additional settings within Windows 11 relevant to the user."
 #iwr -useb https://christitus.com/win | iex
 
 #Get-AppXPackage *bingweather* | Remove-AppXPackage
