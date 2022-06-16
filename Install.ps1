@@ -15,6 +15,9 @@
 #Installed on	‎2/‎28/‎2022
 #OS build	22000.708
 #Experience	Windows Feature Experience Pack 1000.22000.708.0
+#Processor	AMD Ryzen 9 5900X 12-Core Processor               3.70 GHz
+#Installed RAM	64.0 GB
+#System type	64-bit operating system, x64-based processor
 
 #Current bug with Window 11. After these things are installed eventuall the system get corrupted.  Current fix is "DISM /Online /Cleanup-Image /RestoreHealth"
 
