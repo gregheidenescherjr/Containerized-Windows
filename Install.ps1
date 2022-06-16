@@ -19,7 +19,7 @@
 #Installed RAM	64.0 GB
 #System type	64-bit operating system, x64-based processor
 
-#Current bug with Window 11. After these things are installed eventuall the system get corrupted.  Current fix is "DISM /Online /Cleanup-Image /RestoreHealth"
+#Current bug with Window Sandbox. Main sandbox Works. WSB files. Current fix is "DISM /Online /Cleanup-Image /RestoreHealth" Needs more research.
 
 #Somehow this thing is working... it's ugly... but its working...
 #Consider an Alpha (Dirty Install) and Stable (Public Install)
