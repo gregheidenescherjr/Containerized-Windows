@@ -1,21 +1,37 @@
-#Containerized Windows
-#Project Initialized on 5/30/2022 by:
-#Gregory Heidenescher Jr - Creator/Tester
-#Christopher Southerland - Alpha Tester
+  ####     ####    ##  ##   ######     ##      ####    ##  ##   ######   #####     ####    ######   ######   ####    
+ ##  ##   ##  ##   ### ##     ##      ####      ##     ### ##   ##       ##  ##     ##         ##   ##       ## ##   
+ ##       ##  ##   ######     ##     ##  ##     ##     ######   ##       ##  ##     ##        ##    ##       ##  ##  
+ ##       ##  ##   ######     ##     ######     ##     ######   ####     #####      ##       ##     ####     ##  ##  
+ ##       ##  ##   ## ###     ##     ##  ##     ##     ## ###   ##       ####       ##      ##      ##       ##  ##  
+ ##  ##   ##  ##   ##  ##     ##     ##  ##     ##     ##  ##   ##       ## ##      ##     ##       ##       ## ##   
+  ####     ####    ##  ##     ##     ##  ##    ####    ##  ##   ######   ##  ##    ####    ######   ######   ####    
+                                                                                                                     
+						 ##   ##   ####    ##  ##   ####      ####    ##   ##   ####   
+						 ##   ##    ##     ### ##   ## ##    ##  ##   ##   ##  ##  ##  
+						 ##   ##    ##     ######   ##  ##   ##  ##   ##   ##  ##      
+						 ## # ##    ##     ######   ##  ##   ##  ##   ## # ##   ####   
+						 #######    ##     ## ###   ##  ##   ##  ##   #######      ##  
+						 ### ###    ##     ##  ##   ## ##    ##  ##   ### ###  ##  ##  
+						 ##   ##   ####    ##  ##   ####      ####    ##   ##   ####   
+
+									#Containerized Windows
+									#Project Initialized on 5/30/2022 by:
+									#Gregory Heidenescher Jr - Creator/Tester
+									#Christopher Southerland - Alpha Tester
 
 #Special Thanks
 #(Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
 #(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
 
-#Tested On:
-#Edition	Windows 11 Pro
-#Version	21H2
-#Installed on	‎2/‎28/‎2022
-#OS build	22000.708
-#Experience	Windows Feature Experience Pack 1000.22000.708.0
-#Processor	AMD Ryzen 9 5900X 12-Core Processor               3.70 GHz
-#Installed RAM	64.0 GB
-#System type	64-bit operating system, x64-based processor
+						#Tested On:
+						#Edition	Windows 11 Pro
+						#Version	21H2
+						#Installed on	‎2/‎28/‎2022
+						#OS build	22000.708
+						#Experience	Windows Feature Experience Pack 1000.22000.708.0
+						#Processor	AMD Ryzen 9 5900X 12-Core Processor               3.70 GHz
+						#Installed RAM	64.0 GB
+						#System type	64-bit operating system, x64-based processor
 
 #The main goal is to create a User Experience that exposes as little as possible to the internet while creating a playground for developers.
 #Should anything be compromised, it was all done in a containment area seperate from the main Windows Installation.
@@ -28,9 +44,10 @@ PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process
 if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
 
 #Copying Required Files
-#Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Documents"
-#Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
-#Copy-Item ".\Install.ps1" -Destination "C:\Users\Public\Documents"
+Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Documents"
+Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
+Copy-Item ".\Install.ps1" -Destination "C:\Users\Public\Documents"
+Remove-Item ".\Shortcuts"
 
 #Root Account Setup
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
@@ -64,13 +81,10 @@ Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs
 	$vhdpath = "C:\Users\Public\Documents\ContainerApps.vhdx"
 	$vhdpath2 = "C:\Users\Public\Documents\Downloads.vhdx"
 	$vhdsize = 128GB
-	New-VHD -Path $vhdpath -Dynamic -SizeBytes $vhdsize
-    Mount-VHD -Path "C:\Users\Public\Documents\ContainerApps.vhdx" 
-    Get-VHD -Path "C:\Users\Public\Documents\ContainerApps.vhdx"
-    Get-Disk 
-    Initialize-Disk | New-Partition -DiskNumber 2 -DriveLetter T -UseMaximumSize | Format-Volume -FileSystem NTFS -Confirm:$false -Force
-    Test-VHD -Path C:\Users\Public\Documents\ContainerApps.vhdx
-	
+	New-VHD -Path $vhdpath -Dynamic -SizeBytes $vhdsize | Mount-VHD -Passthru |Initialize-Disk -Passthru |New-Partition -AssignDriveLetter G -UseMaximumSize |Format-Volume -FileSystem NTFS -Confirm:$false -Force
+	New-VHD -Path $vhdpath2 -Dynamic -SizeBytes $vhdsize | Mount-VHD -Passthru |Initialize-Disk -Passthru |New-Partition -AssignDriveLetter H -UseMaximumSize |Format-Volume -FileSystem NTFS -Confirm:$false -Force
+	Test-VHD -Path C:\Users\Public\Documents\ContainerApps.vhdx
+	Test-VHD -Path C:\Users\Public\Documents\Downloads.vhdx
 
 Write-Host "Virtual Enviornment Enabled" -foregroundcolor "green"	
 }
@@ -164,7 +178,6 @@ switch ($rslt) {
 0{
 Push-Location $PSScriptRoot
 #Cleanup
-Remove-Item ".\Shortcuts"
 Remove-Item ".\Scripts"
 Remove-Item "C:\Users\Public\Documents\Install.ps1"
 
