@@ -1,61 +1,59 @@
-#Containerized Windows
-#Project Initialized on 5/30/2022 by:
-#Gregory Heidenescher Jr - Creator/Tester
-#Christopher Southerland - Contributor/Tester
+  ####     ####    ##  ##   ######     ##      ####    ##  ##   ######   #####     ####    ######   ######   ####    
+ ##  ##   ##  ##   ### ##     ##      ####      ##     ### ##   ##       ##  ##     ##         ##   ##       ## ##   
+ ##       ##  ##   ######     ##     ##  ##     ##     ######   ##       ##  ##     ##        ##    ##       ##  ##  
+ ##       ##  ##   ######     ##     ######     ##     ######   ####     #####      ##       ##     ####     ##  ##  
+ ##       ##  ##   ## ###     ##     ##  ##     ##     ## ###   ##       ####       ##      ##      ##       ##  ##  
+ ##  ##   ##  ##   ##  ##     ##     ##  ##     ##     ##  ##   ##       ## ##      ##     ##       ##       ## ##   
+  ####     ####    ##  ##     ##     ##  ##    ####    ##  ##   ######   ##  ##    ####    ######   ######   ####    
+                                                                                                                     
+						 ##   ##   ####    ##  ##   ####      ####    ##   ##   ####   
+						 ##   ##    ##     ### ##   ## ##    ##  ##   ##   ##  ##  ##  
+						 ##   ##    ##     ######   ##  ##   ##  ##   ##   ##  ##      
+						 ## # ##    ##     ######   ##  ##   ##  ##   ## # ##   ####   
+						 #######    ##     ## ###   ##  ##   ##  ##   #######      ##  
+						 ### ###    ##     ##  ##   ## ##    ##  ##   ### ###  ##  ##  
+						 ##   ##   ####    ##  ##   ####      ####    ##   ##   ####   
+
+									#Containerized Windows
+									#Project Initialized on 5/30/2022 by:
+									#Gregory Heidenescher Jr - Creator/Tester
+									#Christopher Southerland - Alpha Tester
 
 #Special Thanks
-
-#(VirtualDrives.ps1) Jeffery Hicks @ https://www.altaro.com/hyper-v/creating-generation-2-disk-powershell/
-#(Sandbox.bat Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
+#(Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
 #(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
 
-#Tested On:
-#Edition	Windows 11 Pro
-#Version	21H2
-#Installed on	‎2/‎28/‎2022
-#OS build	22000.708
-#Experience	Windows Feature Experience Pack 1000.22000.708.0
-#Processor	AMD Ryzen 9 5900X 12-Core Processor               3.70 GHz
-#Installed RAM	64.0 GB
-#System type	64-bit operating system, x64-based processor
-
-#Current bug with Window Sandbox. Main sandbox Works. WSB files. Current fix is "DISM /Online /Cleanup-Image /RestoreHealth" Needs more research.
-
-#Somehow this thing is working... it's ugly... but its working...
-#Consider an Alpha (Dirty Install) and Stable (Public Install)
+						#Tested On:
+						#Edition	Windows 11 Pro
+						#Version	21H2
+						#Installed on	‎2/‎28/‎2022
+						#OS build	22000.708
+						#Experience	Windows Feature Experience Pack 1000.22000.708.0
+						#Processor	AMD Ryzen 9 5900X 12-Core Processor               3.70 GHz
+						#Installed RAM	64.0 GB
+						#System type	64-bit operating system, x64-based processor
 
 #The main goal is to create a User Experience that exposes as little as possible to the internet while creating a playground for developers.
 #Should anything be compromised, it was all done in a containment area seperate from the main Windows Installation.
 #This project, combined with good internet practices, will help seperate personal information when browsing the internet through conatinment and compartmentizing applications.
 #We dont need other people to see our credentials during a casual browsing session.
 
-#Term Definitions
-#"Secure Sandbox"(Where personal credentials and information is saved and loaded during startup)
-#"UnSecure Sandbox" (Where no credentials are stored during startup)
-
 PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
 
-Push-Location $PSScriptRoot
+#Set Directory to PSScriptRoot
+if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
 
 #Copying Required Files
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
-$heading = "Containerized Windows Setup"
-$mess = "Copying Required Files."
-$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
-switch ($rslt) {
-	0{
 Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\Install.ps1" -Destination "C:\Users\Public\Documents"
-}
-}
+Remove-Item ".\Shortcuts"
 
 #Root Account Setup
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
-$heading = "Root And User Accounts Setup"
+$heading = "Containerized Windows Setup"
 $mess = "Would You Like To Install Root And User Accounts??"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
@@ -69,121 +67,28 @@ switch ($rslt) {
 }
 }
 
-#Sandbox Setup
-$homee = New-Object System.Management.Automation.Host.ChoiceDescription "&Home","Description."
-$pro = New-Object System.Management.Automation.Host.ChoiceDescription "&Pro","Description."
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Installed","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($homee, $pro, $yes)
-$heading = "Sandbox Setup"
-$mess = "What Version Of Sandbox Do You Need?"
-$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
-switch ($rslt) {
-0{
-	Push-Location $PSScriptRoot
-	
-	Start-Process -File ".\Containerize\Scripts\Sandbox.bat" -Verb RunAs
-	
-	#Rebooting With Changes
-		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
-		$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-		set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Users\Public\Documents\Install.ps1")
-}1{
-	Push-Location $PSScriptRoot
-	
-	Enable-WindowsOptionalFeature -FeatureName "Containers-DisposableClientVM" -All -Online
-	
-	#Rebooting With Changes
-		Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
-		$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-		set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Users\Public\Documents\Install.ps1")
-}2{
-	Push-Location $PSScriptRoot
-}
-}
-
-#Hyper-V Setup
-$homee = New-Object System.Management.Automation.Host.ChoiceDescription "&Home","Description."
-$pro = New-Object System.Management.Automation.Host.ChoiceDescription "&Pro","Description."
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Installed","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($homee, $pro, $yes)
-$heading = "Hyper-V Setup"
-$mess = "What Version Of Hyper-V Do You Need?"
-$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
-switch ($rslt) {
-0{
-	Push-Location $PSScriptRoot
-	
-	Start-Process -File ".\Containerize\Scripts\Hyper-V.bat" -Verb RunAs
-	
-	#Rebooting With Changes
-	Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
-	$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-	set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Users\Public\Documents\Install.ps1")
-}1{
-	Push-Location $PSScriptRoot
-	
-	Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
-	
-	#Rebooting With Changes
-	Write-Host "Rebooting With Changes." -foregroundcolor "magenta"
-	$RunOnceKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce"
-	set-itemproperty $RunOnceKey "NextRun" (C:\Windows\System32\WindowsPowerShell\v1.0\Powershell.exe -executionPolicy Unrestricted -File "C:\Users\Public\Documents\Install.ps1")
-}2{
-	Push-Location $PSScriptRoot
-}
-}
-
-#Restart If Needed
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
+#Virtual Enviornment Setup
+$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Ok","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
 $heading = "Containerized Windows Setup"
-$mess = "Please Restart Your Computer After Installing Sandbox and Hyper-V. If Sandbox and Hyper-V are installed, please continue."
+$mess = "Now Enabling Virtual Enviornments"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
-	0{
-Write-Host "Please Restart Your Computer After Installing Sandbox and Hyper-V." -foregroundcolor "yellow"
-Write-Host "If Sandbox and Hyper-V are installed, please continue." -foregroundcolor "yellow"
-pause
-}
-}
+0{
+Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs
 
-#Virtual Drives Setup (Super Jank... Needs Improvement) - Works Properly with Diskpart Commands, Why Can't Diskpart SideLoad Properly?
-Push-Location $PSScriptRoot
-New-VHD -Path "C:\Users\Public\Documents\VirtualDrives.vhdx" -SizeBytes 240GB
-#Diskpart
-#select vdisk file="C:\Users\Public\Documents\VirtualDrives.vhdx"
-#attach vdisk
-#rem == 1. ContainerApps Drive =========================
-#create partition primary
-#format quick fs=ntfs label="ContainerApps"
-#assign letter="G"
-#automount enable
-#rem == 2. Downloads Drive =========================
-#create partition primary
-#format quick fs=ntfs label="ContainerApps"
-#assign letter="H"
-#automount enable
-#exit
-Start-Process -FilePath 'C:\Users\Public\Documents\VirtualDrives.vhdx' -Wait -Passthru | Out-Null
-pause
-Write-Host "The error is normal. Disk Management will open up, and you will need to finish the virtual drive setup. (Initializing - Assigning Next Available Disk Number)" -foregroundcolor "yellow"
-Write-Host "Right-click on the unassigned space and select New Simple Volume option (Half Size for G: "ContainerApps" and Half Size for H: "Downloads")." -foregroundcolor "yellow"
-Write-Host "Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "yellow"
-Write-Host "Create New Simple Volume (Max Size) And Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "yellow"
-Write-Host "Select Format this volume with the other settings option and make sure the other options are selected like (file system, Allocation Unit Size, and Volume Label etc). Click Next >> Finish." -foregroundcolor "yellow"
-Write-Host "The error is normal. Disk Management will open up, and you will need to finish the virtual drive setup. (Initializing - Assigning Next Available Disk Number)" -foregroundcolor "red"
-Write-Host "Right-click on the unassigned space and select New Simple Volume option (Half Size for G: "ContainerApps" and Half Size for H: "Downloads")." -foregroundcolor "red"
-Write-Host "Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "red"
-Write-Host "Create New Simple Volume (Max Size) And Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "red"
-Write-Host "Select Format this volume with the other settings option and make sure the other options are selected like (file system, Allocation Unit Size, and Volume Label etc). Click Next >> Finish." -foregroundcolor "red"
-Write-Host "The error is normal. Disk Management will open up, and you will need to finish the virtual drive setup. (Initializing - Assigning Next Available Disk Number)" -foregroundcolor "yellow"
-Write-Host "Right-click on the unassigned space and select New Simple Volume option (Half Size for G: "ContainerApps" and Half Size for H: "Downloads")." -foregroundcolor "yellow"
-Write-Host "Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "yellow"
-Write-Host "Create New Simple Volume (Max Size) And Assign Drive G to ContainerApps and Drive H to Downloads. (Formating)" -foregroundcolor "yellow"
-Write-Host "Select Format this volume with the other settings option and make sure the other options are selected like (file system, Allocation Unit Size, and Volume Label etc). Click Next >> Finish." -foregroundcolor "yellow"
-pause
-diskmgmt.msc
-pause
+	#Virtual Drives Setup
+	$vhdpath = "C:\Users\Public\Documents\ContainerApps.vhdx"
+	$vhdpath2 = "C:\Users\Public\Documents\Downloads.vhdx"
+	$vhdsize = 128GB
+	New-VHD -Path $vhdpath -Dynamic -SizeBytes $vhdsize | Mount-VHD -Passthru |Initialize-Disk -Passthru |New-Partition -AssignDriveLetter G -UseMaximumSize |Format-Volume -FileSystem NTFS -Confirm:$false -Force
+	New-VHD -Path $vhdpath2 -Dynamic -SizeBytes $vhdsize | Mount-VHD -Passthru |Initialize-Disk -Passthru |New-Partition -AssignDriveLetter H -UseMaximumSize |Format-Volume -FileSystem NTFS -Confirm:$false -Force
+	Test-VHD -Path C:\Users\Public\Documents\ContainerApps.vhdx
+	Test-VHD -Path C:\Users\Public\Documents\Downloads.vhdx
+
+Write-Host "Virtual Enviornment Enabled" -foregroundcolor "green"	
+}
+}
 
 #Creating Shortcuts and Directories
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
@@ -209,18 +114,15 @@ $shortcut.Save()
 New-Item -FilePath "H:\Documents" -itemType Directory
 New-Item -FilePath "H:\Picutres" -itemType Directory
 New-Item -FilePath "H:\Downloads" -itemType Directory
+Write-Host "Shortcuts and Directories Enabled" -foregroundcolor "Green"
 }
 }
-
-#Set Directory to PSScriptRoot
-if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
-
 
 #Recommended Applications
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $abort = New-Object System.Management.Automation.Host.ChoiceDescription "&Let Me Choose","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
-$heading = "Recommended Applications"
+$heading = "Containerized Windows Setup"
 $mess = "Install recommended applications? 4 in total. If you do, change your Installation Destination to G:\ContainerApps"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
@@ -228,10 +130,10 @@ switch ($rslt) {
 	Push-Location $PSScriptRoot
 	#PowerShell
 		#Download file
-			#Invoke-WebRequest -Uri https://www.github.com/PowerShell/PowerShell/releases/download/v7.2.4/PowerShell-7.2.4-win-x64.msi -verb RunAs -OutFile .\PowerShell.msi
+			Invoke-WebRequest -Uri https://www.github.com/PowerShell/PowerShell/releases/download/v7.2.4/PowerShell-7.2.4-win-x64.msi -verb RunAs -OutFile .\PowerShell.msi
 		#Install file
-			#start-process -FilePath ".\PowerShell.msi"
-			#Remove-Item '.\PowerShell.msi'
+			start-process -FilePath ".\PowerShell.msi"
+			Remove-Item '.\PowerShell.msi'
 	#Mozilla Thunderbird Portable
 		#Download file
 			Invoke-WebRequest -Uri https://download.sourceforge.net/portableapps/ThunderbirdPortable_91.9.1_English.paf.exe -verb RunAs -OutFile .\Thunderbird.paf.exe
@@ -239,12 +141,14 @@ switch ($rslt) {
 			start-process -FilePath ".\Thunderbird.paf.exe" -verb RunAs
 			Remove-Item '.\Thunderbird.paf.exe'
 	#Comodo Dragon Broswer - Chrome Based Broswer ("Secure" Line)
+	#"Secure Sandbox"(Where personal credentials and information is saved and loaded during startup)
 		#Download file
 			Invoke-WebRequest -Uri https://cdn.download.comodo.com/browser/release/dragon/x86/dragonsetup.exe -verb RunAs -OutFile .\dragonsetup.exe
 		#Install file
 			start-process -FilePath ".\dragonsetup.exe" -Verb runas
 			Remove-Item '.\dragonsetup.exe'
 	#Ice Dragon Browser - FireFox Based Browser ("UnSecure" Line)
+	#"UnSecure Sandbox" (Where no credentials are loaded during startup)
 		#Download file
 			Invoke-WebRequest -Uri https://download.comodo.com/icedragon/update/icedragonsetup.exe -OutFile .\icedragonsetup.exe 
 		#Install file
@@ -256,6 +160,7 @@ switch ($rslt) {
 		#Install file
 			start-process -FilePath ".\PortableApps.exe" -Verb runas
 			Remove-Item '.\PortableApps.paf.exe'
+	Write-Host "Recomended Applications Installed" -foregroundcolor "green"
 }1{
 	Push-Location $PSScriptRoot
 }
@@ -264,38 +169,25 @@ switch ($rslt) {
 #Setup Complete
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
-$heading = "Setup Complete"
-$mess = "Base Settings Applied. Shortcuts are in your Documents folder to create your own sandboxes. Now restarting,"
+$heading = "Containerized Windows Setup"
+$mess = "Base Settings Applied.
+Shortcuts are in your Documents folder to create your own sandboxes.
+Please Restart your system."
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
 Push-Location $PSScriptRoot
 #Cleanup
-Remove-Item ".\Shortcuts"
 Remove-Item ".\Scripts"
 Remove-Item "C:\Users\Public\Documents\Install.ps1"
 
+#Get-AppXPackage *bingweather* | Remove-AppXPackage
+
 #AutoMount Drives At Startup
 #Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
-
-
-
-
-
 Restart-Computer
 }
 }
 
-
-
-#Community Effort Tools
-#Tor Network
-#System Hardening
-
 #Chris Titus Tech Toolbox
-#Write-Host "Chris Titus Tech Toolbox"
-#Write-Host "This allows the user to define additional settings within Windows 11 relevant to the user."
 #iwr -useb https://christitus.com/win | iex
-
-#Get-AppXPackage *bingweather* | Remove-AppXPackage
-

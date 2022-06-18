@@ -1,0 +1,29 @@
+<Configuration>
+  <VGpu>Enabled</VGpu>
+  <Networking>Default</Networking>
+  <MappedFolders>
+    <MappedFolder>
+      <HostFolder>H:\Downloads</HostFolder>
+      <SandboxFolder>C:\Users\WDAGUtilityAccount\Desktop\Downloads</SandboxFolder>
+      <ReadOnly>false</ReadOnly>
+    </MappedFolder>
+    <MappedFolder>
+      <HostFolder>G:\Comodo\IceDragon</HostFolder>
+      <SandboxFolder>C:\Users\WDAGUtilityAccount\Desktop\Dragon</SandboxFolder>
+      <ReadOnly>true</ReadOnly>
+    </MappedFolder>
+   <MappedFolder>
+     <HostFolder>G:\PortableApps</HostFolder>
+     <ReadOnly>false</ReadOnly>
+   </MappedFolder>    
+  </MappedFolders>
+  <LogonCommand>
+    <Command>C:\users\WDAGUtilityAccount\Desktop\Dragon\dragon.exe</Command>
+  </LogonCommand>
+  <AudioInput>Enable</AudioInput>
+  <VideoInput>Enable</VideoInput>
+  <ProtectedClient>Enable</ProtectedClient>
+  <PrinterRedirection>Enable</PrinterRedirection>
+  <ClipboardRedirection>Default</ClipboardRedirection>
+  <MemoryInMB>4096</MemoryInMB>
+</Configuration>
