@@ -50,3 +50,5 @@ Please wait for the first inital full release, and feel free to view the files, 
 ***HHD Space***
 
 1. 500GB is recommended for the Home drive. It will be adding virtual drives inside of your location.
+
+***If you're interested in working together. GHeidenescher@outlook.com***
