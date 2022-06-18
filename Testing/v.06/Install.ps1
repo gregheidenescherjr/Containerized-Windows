@@ -35,7 +35,8 @@
 
 #The main goal is to create a User Experience that exposes as little as possible to the internet while creating a playground for developers.
 #Should anything be compromised, it was all done in a containment area seperate from the main Windows Installation.
-#This project, combined with good internet practices, will help seperate personal information when browsing the internet through conatinment and compartmentizing applications.
+#This project, combined with good internet practices...
+#will help seperate personal information when browsing the internet through conatinment and compartmentizing applications.
 #We dont need other people to see our credentials during a casual browsing session.
 
 PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
@@ -70,22 +71,25 @@ switch ($rslt) {
 #Virtual Enviornment Setup
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Ok","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
-$heading = "Containerized Windows Setup"
+$heading = "Containerized Windows Setup. You will have to manually initialize and exit Drive Management."
 $mess = "Now Enabling Virtual Enviornments"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
 Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs
 
-	#Virtual Drives Setup
-	$vhdpath = "C:\Users\Public\Documents\ContainerApps.vhdx"
-	$vhdpath2 = "C:\Users\Public\Documents\Downloads.vhdx"
-	$vhdsize = 128GB
-	New-VHD -Path $vhdpath -Dynamic -SizeBytes $vhdsize | Mount-VHD -Passthru |Initialize-Disk -Passthru |New-Partition -AssignDriveLetter G -UseMaximumSize |Format-Volume -FileSystem NTFS -Confirm:$false -Force
-	New-VHD -Path $vhdpath2 -Dynamic -SizeBytes $vhdsize | Mount-VHD -Passthru |Initialize-Disk -Passthru |New-Partition -AssignDriveLetter H -UseMaximumSize |Format-Volume -FileSystem NTFS -Confirm:$false -Force
-	Test-VHD -Path C:\Users\Public\Documents\ContainerApps.vhdx
-	Test-VHD -Path C:\Users\Public\Documents\Downloads.vhdx
-
+#Virtual Drives Setup (Something is broken with Initializing. Must be done manually.)
+New-VHD -Path "C:\Users\Public\Documents\VirtualDrive.vhdx" -Dynamic -SizeBytes 241GB 
+Mount-VHD -path "C:\Users\Public\Documents\VirtualDrive.vhdx"
+Start-Process diskmgmt.msc
+Write-Host "You will have to manually initialize and exit Drive Management." -foregroundcolor "Yellow"
+Write-Host "After Initializing, remember your disk number if you need to edit this script for yourself." -foregroundcolor "Yellow"
+pause
+Get-VHD -path "C:\Users\Public\Documents\VirtualDrive.vhdx"
+New-Partition -DiskNumber 2 -Size 120GB -DriveLetter A | Format-Volume -FileSystem NTFS -Confirm:$false -Force
+pause
+Get-VHD -path "C:\Users\Public\Documents\VirtualDrive.vhdx"
+New-Partition -DiskNumber 2 -Size 120GB -DriveLetter B | Format-Volume -FileSystem NTFS -Confirm:$false -Force
 Write-Host "Virtual Enviornment Enabled" -foregroundcolor "green"	
 }
 }
