@@ -39,6 +39,9 @@
 #will help seperate personal information when browsing the internet through conatinment and compartmentizing applications.
 #We dont need other people to see our credentials during a casual browsing session.
 
+#If you make changes to this, please make it easy to identify by adding your name to the main task you edited. It will be easier later down the road. Thank You.
+#I will later make a word document that will have highlights on recommended user changes.  If a way to simplify, please share.
+
 PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
 
 #Set Directory to PSScriptRoot
@@ -79,18 +82,25 @@ switch ($rslt) {
 Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs
 
 #Virtual Drives Setup (Something is broken with Initializing. Must be done manually.)
-New-VHD -Path "C:\Users\Public\Documents\VirtualDrive.vhdx" -Dynamic -SizeBytes 241GB 
-Mount-VHD -path "C:\Users\Public\Documents\VirtualDrive.vhdx"
-Start-Process diskmgmt.msc
-Write-Host "You will have to manually initialize and exit Drive Management." -foregroundcolor "Yellow"
+New-VHD -Path "C:\Users\Public\Documents\Apps.vhdx" -Dynamic -SizeBytes 120GB 
+New-VHD -Path "C:\Users\Public\Documents\Downloads.vhdx" -Dynamic -SizeBytes 120GB 
+New-VHD -Path "C:\Users\Public\Documents\Email.vhdx" -Dynamic -SizeBytes 20GB 
+Mount-VHD -path "C:\Users\Public\Documents\Apps.vhdx"
+Mount-VHD -path "C:\Users\Public\Documents\Downloads.vhdx"
+Mount-VHD -path "C:\Users\Public\Documents\Email.vhdx"
+Write-Host "You will have to manually initialize and exit Drive Management. This is a current bug with powershell." -foregroundcolor "Yellow"
+pause
 Write-Host "After Initializing, remember your disk number if you need to edit this script for yourself." -foregroundcolor "Yellow"
 pause
-Get-VHD -path "C:\Users\Public\Documents\VirtualDrive.vhdx"
-New-Partition -DiskNumber 2 -Size 120GB -DriveLetter A | Format-Volume -FileSystem NTFS -Confirm:$false -Force
+Start-Process diskmgmt.msc
 pause
-Get-VHD -path "C:\Users\Public\Documents\VirtualDrive.vhdx"
-New-Partition -DiskNumber 2 -Size 120GB -DriveLetter B | Format-Volume -FileSystem NTFS -Confirm:$false -Force
-Write-Host "Virtual Enviornment Enabled" -foregroundcolor "green"	
+Get-VHD -path "C:\Users\Public\Documents\Apps.vhdx"
+New-Partition -DiskNumber 2 -Size 120GB -DriveLetter A | Format-Volume -FileSystem NTFS -Confirm:$false -Force
+Get-VHD -path "C:\Users\Public\Documents\Downloads.vhdx"
+New-Partition -DiskNumber 3 -Size 120GB -DriveLetter B | Format-Volume -FileSystem NTFS -Confirm:$false -Force
+Get-VHD -path "C:\Users\Public\Documents\Email.vhdx"
+New-Partition -DiskNumber 4 -Size 20GB -DriveLetter L | Format-Volume -FileSystem NTFS -Confirm:$false -Force
+Write-Host "Virtual Drives Enabled" -foregroundcolor "green"	
 }
 }
 
@@ -185,13 +195,38 @@ Push-Location $PSScriptRoot
 Remove-Item ".\Scripts"
 Remove-Item "C:\Users\Public\Documents\Install.ps1"
 
-#Get-AppXPackage *bingweather* | Remove-AppXPackage
-
 #AutoMount Drives At Startup
 #Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
 Restart-Computer
 }
 }
 
+
+
+
+<#Things I might use later...
+
+#Remove Apps
+#Get-AppXPackage *bingweather* | Remove-AppXPackage
+
+#Prevent install for new users
+#Get-AppxProvisionedPackage -online | select PackageName
+
+#$appname = @(
+#"*BingWeather*"
+#"*ZuneMusic*"
+#"*ZuneVideo*"
+#)
+
+#ForEach($app in $appname){
+#Get-AppxProvisionedPackage -Online | where {$_.PackageName -like $app} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue
+
+
+
+
+
 #Chris Titus Tech Toolbox
 #iwr -useb https://christitus.com/win | iex
+
+
+#}>
