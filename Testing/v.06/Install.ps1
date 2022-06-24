@@ -124,6 +124,18 @@ $WScriptObj = New-Object -ComObject ("WScript.Shell")
 $shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
 $shortcut.TargetPath = $SourceFilePath
 $shortcut.Save()
+$SourceFilePath = "C:\ProgramData\Microsoft\Windows\Containers\BaseImages\9314078f-469b-40bb-a199-1ce0f1bb6064\BaseLayer\Files\Users\WDAGUtilityAccount\Desktop"
+$ShortcutPath = "C:\Users\Public\Documents\Sandbox Desktop.lnk"
+$WScriptObj = New-Object -ComObject ("WScript.Shell")
+$shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
+$shortcut.TargetPath = $SourceFilePath
+$shortcut.Save()
+$SourceFilePath = "C:\ProgramData\Microsoft\Windows\Containers\BaseImages\9314078f-469b-40bb-a199-1ce0f1bb6064\BaseLayer\Files\Users\WDAGUtilityAccount\Documents"
+$ShortcutPath = "C:\Users\Public\Documents\Sandbox Documents.lnk"
+$WScriptObj = New-Object -ComObject ("WScript.Shell")
+$shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
+$shortcut.TargetPath = $SourceFilePath
+$shortcut.Save()
 
 New-Item -FilePath "H:\Documents" -itemType Directory
 New-Item -FilePath "H:\Picutres" -itemType Directory
@@ -137,7 +149,7 @@ $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","De
 $abort = New-Object System.Management.Automation.Host.ChoiceDescription "&Let Me Choose","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
 $heading = "Containerized Windows Setup"
-$mess = "Install recommended applications? 4 in total. If you do, change your Installation Destination to G:\ContainerApps"
+$mess = "Install recommended applications? If you do, change your Installation Destination to G:\"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
@@ -154,20 +166,6 @@ switch ($rslt) {
 		#Install file
 			start-process -FilePath ".\Thunderbird.paf.exe" -verb RunAs
 			Remove-Item '.\Thunderbird.paf.exe'
-	#Comodo Dragon Broswer - Chrome Based Broswer ("Secure" Line)
-	#"Secure Sandbox"(Where personal credentials and information is saved and loaded during startup)
-		#Download file
-			Invoke-WebRequest -Uri https://cdn.download.comodo.com/browser/release/dragon/x86/dragonsetup.exe -verb RunAs -OutFile .\dragonsetup.exe
-		#Install file
-			start-process -FilePath ".\dragonsetup.exe" -Verb runas
-			Remove-Item '.\dragonsetup.exe'
-	#Ice Dragon Browser - FireFox Based Browser ("UnSecure" Line)
-	#"UnSecure Sandbox" (Where no credentials are loaded during startup)
-		#Download file
-			Invoke-WebRequest -Uri https://download.comodo.com/icedragon/update/icedragonsetup.exe -OutFile .\icedragonsetup.exe 
-		#Install file
-			start-process -FilePath ".\icedragonsetup.exe" -Verb runas
-			Remove-Item '.\icedragonsetup.exe'
 	#Portable Apps Menu - Start Menu Linked To Portable Versions Of Popular Apps
 		#Download file
 			Invoke-WebRequest -Uri https://sourceforge.net/projects/portableapps/files/PortableApps.com%20Platform/PortableApps.com_Platform_Setup_21.2.2.paf.exe/download?use_mirror=cytranet -OutFile .\PortableApps.paf.exe
