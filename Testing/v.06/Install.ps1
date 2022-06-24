@@ -75,7 +75,7 @@ switch ($rslt) {
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Ok","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
 $heading = "Containerized Windows Setup. You will have to manually initialize and exit Drive Management."
-$mess = "Now Enabling Virtual Enviornments"
+$mess = "Creating Virtual Apps, DOwnloads, and Email drives."
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
@@ -113,7 +113,7 @@ $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 	0{
 $SourceFilePath = "G:\"
-$ShortcutPath = "C:\Users\Public\Documents\ContainerApps.lnk"
+$ShortcutPath = "C:\Users\Public\Documents\Apps.lnk"
 $WScriptObj = New-Object -ComObject ("WScript.Shell")
 $shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
 $shortcut.TargetPath = $SourceFilePath
