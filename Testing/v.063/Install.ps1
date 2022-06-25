@@ -36,7 +36,44 @@ powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWi
 
 -(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
 
-')}" "& {("
+')}"
+
+#Root User Setup
+$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
+$no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
+$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
+$heading = "Containerized Windows Setup"
+$mess = "Would You Like To Install Root And User Accounts??"
+$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
+switch ($rslt) {
+0{
+Push-Location $PSScriptRoot
+Start-Process "cmd.exe" -File ".\Containerize\Scripts\Users.bat""" -Verb RunAs
+}1{
+Push-Location $PSScriptRoot
+}}
+
+powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('
+                                            -The main goal!!!!!
+
+    Is to create a User Experience that exposes as little as
+    possible to the internet while creating a playground for
+    developers.Should anything be compromised, it was all done
+    in a containment area seperate from the main Windows Installation.
+    This project, combined with good internet practices...
+    
+    Will help seperate personal information when browsing
+    the internet through conatinment and compartmentizing
+    applications. We dont need other people to see our 
+    credentials during a casual browsing session.
+
+    If you make changes to this, please make it easy to identify 
+    by adding your name to the main task you edited. It will be easier
+    later down the road. Thank You.
+
+    I will later make a word document that will have highlights on
+    recommended user changes. If a way to simplify, please share.
+')}"
 
 #Virtual Drives Setup
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
@@ -46,7 +83,8 @@ switch ($rslt) {
 0{
 Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs
 
-#Virtual Drives Setup (Something is broken with Initializing. Must be done manually.)
+#Virtual Drives Setup
+#(Something is broken with PowerShell Initializing. Must be done manually.)
 New-VHD -Path "C:\Users\Public\Documents\Apps.vhdx" -Dynamic -SizeBytes 120GB 
 New-VHD -Path "C:\Users\Public\Documents\Downloads.vhdx" -Dynamic -SizeBytes 120GB 
 New-VHD -Path "C:\Users\Public\Documents\Email.vhdx" -Dynamic -SizeBytes 20GB 
@@ -69,42 +107,16 @@ Write-Host "Virtual Drives Enabled" -foregroundcolor "green"
 }
 }
 
-powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('
-                                            -The main goal!!!!!
+#Ketarin
+Copy-Item .\Containerize\InitialSetups -Destination G:\ -recurse -Force -PassThru
+#Install file
+start-process -FilePath ".\Containerize\InitialSetups\Ketarin\Released\Ketarin-1.8.11\Ketarin.exe" -Verb runas
+Remove-Item '.\Containerize\InitialSetups\'
+Write-Host "Recomended Applications Installed" -foregroundcolor "green"
 
-    Is to create a User Experience that exposes as little as
-    possible to the internet while creating a playground for
-    developers.Should anything be compromised, it was all done
-    in a containment area seperate from the main Windows Installation.
-    This project, combined with good internet practices...
-    
-    Will help seperate personal information when browsing
-    the internet through conatinment and compartmentizing
-    applications. We dont need other people to see our 
-    credentials during a casual browsing session.
 
-    If you make changes to this, please make it easy to identify 
-    by adding your name to the main task you edited. It will be easier
-    later down the road. Thank You.
 
-    I will later make a word document that will have highlights on
-    recommended user changes. If a way to simplify, please share.')}"
-
-#Root User Setup
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
-$no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
-$heading = "Containerized Windows Setup"
-$mess = "Would You Like To Install Root And User Accounts??"
-$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
-switch ($rslt) {
-0{
-Push-Location $PSScriptRoot
-Start-Process "cmd.exe" -File ".\Containerize\Scripts\Users.bat""" -Verb RunAs
-}1{
-Push-Location $PSScriptRoot
-}}
-                   
+#What Next?
 
 
 #Creating Shortcuts and Directories
@@ -137,25 +149,6 @@ Write-Host "Shortcuts and Directories Enabled" -foregroundcolor "Green"
 }
 }
 
-#Recommended Applications (Ketarin)
-$abort = New-Object System.Management.Automation.Host.ChoiceDescription "&Let Me Choose","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
-$mess = "Install recommended applications?"
-$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
-switch ($rslt) {
-0{
-	Push-Location $PSScriptRoot
-		#Ketarin
-		Copy-Item .\Containerize\InitialSetups -Destination G:\ -recurse -Force -PassThru
-			#Install file
-			start-process -FilePath ".\Containerize\InitialSetups\Ketarin\Released\Ketarin-1.8.11\Ketarin.exe" -Verb runas
-			Remove-Item '.\Containerize\InitialSetups\'
-	Write-Host "Recomended Applications Installed" -foregroundcolor "green"
-}1{
-	Push-Location $PSScriptRoot
-}
-}
-
 #Setup Complete
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
 $mess = "Base Settings Applied.
@@ -170,7 +163,7 @@ Push-Location $PSScriptRoot
 #AutoMount Drives At Startup
 Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
 
-Write-Host "Sandbox User Folders: %PROGRAMDATA%\Microsoft\Windows\Containers\<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount\Documents" "
+Write-Host "Sandbox User Folders: %PROGRAMDATA%\Microsoft\Windows\Containers\<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount\Documents" 
 pause
 Restart-Computer
 }

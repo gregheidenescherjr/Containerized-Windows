@@ -36,9 +36,14 @@ powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWi
 
 -(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
 
-')}
-"& {( 
+')}" 
+
 #Virtual Drives Setup
+$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
+$mess = "Creating Virtual Apps, Downloads, and Email drives."
+$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
+switch ($rslt) {
+0{
 Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs
 
 #Virtual Drives Setup (Something is broken with Initializing. Must be done manually.)
@@ -61,7 +66,8 @@ New-Partition -DiskNumber 3 -Size 120GB -DriveLetter B | Format-Volume -FileSyst
 Get-VHD -path "C:\Users\Public\Documents\Email.vhdx"
 New-Partition -DiskNumber 4 -Size 20GB -DriveLetter L | Format-Volume -FileSystem NTFS -Confirm:$false -Force
 Write-Host "Virtual Drives Enabled" -foregroundcolor "green"	
-}""
+}
+}"
 
 powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('
                                             -The main goal!!!!!
@@ -162,7 +168,7 @@ Push-Location $PSScriptRoot
 #Cleanup
 
 #AutoMount Drives At Startup
-Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" â€“Force
+Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
 
 Write-Host "Sandbox User Folders: %PROGRAMDATA%\Microsoft\Windows\Containers\<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount\Documents" "
 pause
