@@ -21,10 +21,11 @@ Write-Host "		 ##   ##   ####    ##  ##   ####      ####    ##   ##   ####
 			#Christopher Southerland - Alpha Tester
 
 # Special Thanks
-#(Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
+	# Microsoft @ https://docs.microsoft.com/en-us/
 #(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
-#(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
+	#(Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
 #(ScoopBoxManager) LAB02-Research @ https://github.com/LAB02-Research/ScoopBoxManager
+	#(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
 
 		#Tested On:
 		#Edition	Windows 11 Pro
@@ -55,7 +56,8 @@ if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
 #Root Account Setup
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
+$note = New-Object System.Management.Automation.Host.ChoiceDescription "&Note","Description."
+$options = [System.Management.Automation.Host.ChoiceDescription[]]($note)
 $heading = "Containerized Windows Setup"
 $mess = "Would You Like To Install Root And User Accounts??"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
@@ -172,13 +174,11 @@ Push-Location $PSScriptRoot
 #AutoMount Drives At Startup
 Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
 
-Write-Host "Sandbox User Folders: %PROGRAMDATA%\Microsoft\Windows\Containers\<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount\Documents""
+Write-Host "Sandbox User Folders: %PROGRAMDATA%\Microsoft\Windows\Containers\<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount\Documents"
 pause
 Restart-Computer
 }
 }
-
-
 
 
 #Things I might use later...
@@ -197,4 +197,4 @@ Restart-Computer
 
 #ForEach($app in $appname){
 #Get-AppxProvisionedPackage -Online | where {$_.PackageName -like $app} | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue
-#}
+#
