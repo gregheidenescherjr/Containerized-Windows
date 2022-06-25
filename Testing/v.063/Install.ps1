@@ -1,10 +1,11 @@
 PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
+
 #I Need help. Awesome welcome script. How to work as welcome message?
 
-powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show(' Containerized Windows Setup.
+powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('                          Containerized Windows Setup.
     Containerized Windows
     Project Initialized on 5/30/2022 
-    by:
+                    by:
     Gregory Heidenescher Jr - Creator/Tester
     Christopher Southerland - Creator/Alpha Tester
   
@@ -35,9 +36,16 @@ powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWi
 ')}"
 
 
-powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('.
--The main goal is to create a User Experience that exposes as
-little as possible to the internet while creating a playground for developers.Should anything be compromised, it was all done in a containment area seperate from the main Windows Installation. This project, combined with good internet practices...#will help seperate personal information when browsing the internet through conatinment and compartmentizing applications. We dont need other people to see our credentials during a casual browsing session.
+powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('                          -The main goal!!!!!
+    is to create a User Experience that exposes as little as
+    possible to the internet while creating a playground for
+    developers.Should anything be compromised, it was all done
+    in a containment area seperate from the main Windows Installation.
+    This project, combined with good internet practices...
+        Will help seperate personal information when browsing
+    the internet through conatinment and compartmentizing
+    applications. We dont need other people to see our 
+    credentials during a casual browsing session.
 
 -If you make changes to this, please make it easy to identify by adding your name to the main task you edited. It will be easier later down the road. Thank You.
 
