@@ -618,8 +618,6 @@ powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWi
 
 -(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
 
-
-
 ')}"
 
 Push-Location $PSScriptRoot
