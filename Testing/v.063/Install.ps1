@@ -62,25 +62,25 @@ Pause
 #Set Directory to PSScriptRoot
 if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
 
-#Welcome and Root Account Setup
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
-$no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
-$note = New-Object System.Management.Automation.Host.ChoiceDescription "&Note","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($note)
-$heading = "Containerized Windows Setup"
-$mess = "Would You Like To Install Root And User Accounts??"
-$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
-switch ($rslt) {
-0{
-	Push-Location $PSScriptRoot
+powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show(''
+                                            Welcome and Root Account Setup"
+    $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."""
+    $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."""
+    $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
+    $heading = "Containerized Windows Setup"
+    $mess = "Would You Like To Install Root And User Accounts??"
+    $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
+    switch ($rslt) {
+    0{
+	    Push-Location $PSScriptRoot
 	
-	Start-Process "cmd.exe" -File ".\Containerize\Scripts\Users.bat" -Verb RunAs
+	    Start-Process "cmd.exe" -File ".\Containerize\Scripts\Users.bat" -Verb RunAs
 	
-}1{
-	Push-Location $PSScriptRoot
-}
-}
-
+    }1{
+	    Push-Location $PSScriptRoot
+    }
+    }')}"
+    
 #Virtual Drives Setup
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
 $mess = "Creating Virtual Apps, Downloads, and Email drives."
