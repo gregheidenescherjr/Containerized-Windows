@@ -5,7 +5,7 @@ if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
 
 #I Need help. Awesome welcome script. How to work as welcome message header?
 
-powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('                          Containerized Windows Setup.
+powershell -WindowStyle Normal -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('                          Containerized Windows Setup.
     Containerized Windows
     Project Initialized on 5/30/2022 
                                 by:
@@ -114,17 +114,9 @@ start-process -FilePath ".\Containerize\InitialSetups\Ketarin\Released\Ketarin-1
 Remove-Item '.\Containerize\InitialSetups\'
 Write-Host "Recomended Applications Installed" -foregroundcolor "green"
 
-
-
 #What Next?
 
-
 #Creating Shortcuts and Directories
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
-$mess = "Creating Shortcuts and Directories."
-$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
-switch ($rslt) {
-	0{
 $SourceFilePath = "G:\"
 $ShortcutPath = "C:\Users\Public\Documents\Apps.lnk"
 $WScriptObj = New-Object -ComObject ("WScript.Shell")
@@ -146,29 +138,37 @@ Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
 
 Write-Host "Shortcuts and Directories Enabled" -foregroundcolor "Green"
-}
-}
 
-#Setup Complete
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
-$mess = "Base Settings Applied.
-Shortcuts are in your Documents folder to create your own sandboxes.
-Please Restart your system."
-$rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
-switch ($rslt) {
-0{
-Push-Location $PSScriptRoot
 #Cleanup
 
 #AutoMount Drives At Startup
 Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
 
-Write-Host "Sandbox User Folders: %PROGRAMDATA%\Microsoft\Windows\Containers\<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount\Documents" 
-pause
-Restart-Computer
-}
-}
 
+
+#Setup Complete
+
+powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('                          Containerized Windows Setup.
+    ***Sandbox User Folders: %PROGRAMDATA%\Microsoft\Windows\Containers\<GUID>
+	\BaseLayer\Files\Users\WDAGUtilityAccount\Documents***
+	
+
+                          Special Thanks for the Public Material!
+
+-Microsoft @ https://docs.microsoft.com/en-us/
+
+-(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
+
+-(Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
+
+-(ScoopBoxManager) LAB02-Research @ https://github.com/LAB02-Research/ScoopBoxManager
+
+-(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
+
+')}"
+
+Push-Location $PSScriptRoot
+Restart-Computer
 
 #Things I might use later...
 
