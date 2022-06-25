@@ -608,6 +608,8 @@ powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWi
 
 -Microsoft @ https://docs.microsoft.com/en-us/
 
+- ChrisTitusTech @ https://github.com/ChrisTitusTech
+
 -(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
 
 -(Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
@@ -616,7 +618,7 @@ powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWi
 
 -(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
 
-- ChrisTitusTech @ https://github.com/ChrisTitusTech
+
 
 ')}"
 
