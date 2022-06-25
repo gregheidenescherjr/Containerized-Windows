@@ -1,59 +1,54 @@
-Write-Host ". 
-  ####     ####    ##  ##   ######     ##      ####    ##  ##   ######   #####     ####    ######   ######   ####    
- ##  ##   ##  ##   ### ##     ##      ####      ##     ### ##   ##       ##  ##     ##         ##   ##       ## ##   
- ##       ##  ##   ######     ##     ##  ##     ##     ######   ##       ##  ##     ##        ##    ##       ##  ##  
- ##       ##  ##   ######     ##     ######     ##     ######   ####     #####      ##       ##     ####     ##  ##  
- ##       ##  ##   ## ###     ##     ##  ##     ##     ## ###   ##       ####       ##      ##      ##       ##  ##  
- ##  ##   ##  ##   ##  ##     ##     ##  ##     ##     ##  ##   ##       ## ##      ##     ##       ##       ## ##   
-  ####     ####    ##  ##     ##     ##  ##    ####    ##  ##   ######   ##  ##    ####    ######   ######   ####
-				"                                                                                                                     
-Write-Host "		 ##   ##   ####    ##  ##   ####      ####    ##   ##   ####   
-		 ##   ##    ##     ### ##   ## ##    ##  ##   ##   ##  ##  ##  
-		 ##   ##    ##     ######   ##  ##   ##  ##   ##   ##  ##      
-		 ## # ##    ##     ######   ##  ##   ##  ##   ## # ##   ####   
-		 #######    ##     ## ###   ##  ##   ##  ##   #######      ##  
-		 ### ###    ##     ##  ##   ## ##    ##  ##   ### ###  ##  ##  
-		 ##   ##   ####    ##  ##   ####      ####    ##   ##   ####   
-
-			#Containerized Windows
-			#Project Initialized on 5/30/2022 by:
-			#Gregory Heidenescher Jr - Creator/Tester
-			#Christopher Southerland - Alpha Tester
-
-# Special Thanks
-	# Microsoft @ https://docs.microsoft.com/en-us/
-#(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
-	#(Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
-#(ScoopBoxManager) LAB02-Research @ https://github.com/LAB02-Research/ScoopBoxManager
-	#(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
-
-		#Tested On:
-		#Edition	Windows 11 Pro
-		#Version	21H2
-		#Installed on	2/28/2022
-		#OS build	22000.708
-		#Experience	Windows Feature Experience Pack 1000.22000.708.0
-		#Processor	AMD Ryzen 9 5900X 12-Core Processor               3.70 GHz
-		#Installed RAM	64.0 GB
-		#System type	64-bit operating system, x64-based processor
-
-#The main goal is to create a User Experience that exposes as little as possible to the internet while creating a playground for developers.
-#Should anything be compromised, it was all done in a containment area seperate from the main Windows Installation.
-#This project, combined with good internet practices...
-#will help seperate personal information when browsing the internet through conatinment and compartmentizing applications.
-#We dont need other people to see our credentials during a casual browsing session.
-
-#If you make changes to this, please make it easy to identify by adding your name to the main task you edited.
-It will be easier later down the road. Thank You.
-#I will later make a word document that will have highlights on recommended user changes.
-If a way to simplify, please share."
-
 PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
+#I Need help. Awesome welcome script. How to work as welcome message?
+
+powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show(' Containerized Windows Setup.
+    Containerized Windows
+    Project Initialized on 5/30/2022 
+    by:
+    Gregory Heidenescher Jr - Creator/Tester
+    Christopher Southerland - Creator/Alpha Tester
+  
+ -Tested On:
+ Edition	Windows 11 Pro -Version	21H2
+ Installed on	2/28/2022 -OS build	22000.708
+ Experience	Windows Feature Experience Pack
+ 1000.22000.708.0
+ Processor	AMD Ryzen 9 5900X 12-Core Processor
+ 3.70 GHz
+ Installed RAM	64.0 GB
+ System type	64-bit operating system, x64-based processor
+
+
+                          Special Thanks for the Public Material!
+
+
+-Microsoft @ https://docs.microsoft.com/en-us/
+
+-(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
+
+-(Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
+
+-(ScoopBoxManager) LAB02-Research @ https://github.com/LAB02-Research/ScoopBoxManager
+
+-(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
+
+')}"
+
+
+powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('.
+-The main goal is to create a User Experience that exposes as
+little as possible to the internet while creating a playground for developers.Should anything be compromised, it was all done in a containment area seperate from the main Windows Installation. This project, combined with good internet practices...#will help seperate personal information when browsing the internet through conatinment and compartmentizing applications. We dont need other people to see our credentials during a casual browsing session.
+
+-If you make changes to this, please make it easy to identify by adding your name to the main task you edited. It will be easier later down the road. Thank You.
+
+-I will later make a word document that will have highlights on recommended user changes. If a way to simplify, please share.')}"
+
+Pause
 
 #Set Directory to PSScriptRoot
 if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
 
-#Root Account Setup
+#Welcome and Root Account Setup
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
 $note = New-Object System.Management.Automation.Host.ChoiceDescription "&Note","Description."
@@ -73,9 +68,7 @@ switch ($rslt) {
 }
 
 #Virtual Drives Setup
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Ok","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
-$heading = "Containerized Windows Setup. You will have to manually initialize and exit Drive Management."
 $mess = "Creating Virtual Apps, Downloads, and Email drives."
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
@@ -106,9 +99,7 @@ Write-Host "Virtual Drives Enabled" -foregroundcolor "green"
 }
 
 #Creating Shortcuts and Directories
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
-$heading = "Containerized Windows Setup"
 $mess = "Creating Shortcuts and Directories."
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
@@ -138,10 +129,8 @@ Write-Host "Shortcuts and Directories Enabled" -foregroundcolor "Green"
 }
 
 #Recommended Applications (Ketarin)
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $abort = New-Object System.Management.Automation.Host.ChoiceDescription "&Let Me Choose","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $abort)
-$heading = "Containerized Windows Setup"
 $mess = "Install recommended applications?"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
@@ -159,9 +148,7 @@ switch ($rslt) {
 }
 
 #Setup Complete
-$yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $options = [System.Management.Automation.Host.ChoiceDescription[]]($yes)
-$heading = "Containerized Windows Setup"
 $mess = "Base Settings Applied.
 Shortcuts are in your Documents folder to create your own sandboxes.
 Please Restart your system."
@@ -174,7 +161,7 @@ Push-Location $PSScriptRoot
 #AutoMount Drives At Startup
 Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" –Force
 
-Write-Host "Sandbox User Folders: %PROGRAMDATA%\Microsoft\Windows\Containers\<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount\Documents"
+Write-Host "Sandbox User Folders: %PROGRAMDATA%\Microsoft\Windows\Containers\<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount\Documents" "
 pause
 Restart-Computer
 }
