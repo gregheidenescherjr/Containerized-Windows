@@ -75,21 +75,28 @@ powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWi
 
     Is to create a User Experience that exposes as little as
     possible to the internet while creating a playground for
-    developers.Should anything be compromised, it was all done
+    developers.
+	
+	Should anything be compromised, it was all done
     in a containment area seperate from the main Windows Installation.
-    This project, combined with good internet practices...
+    
+	This project, combined with good internet practices...
     
     Will help seperate personal information when browsing
     the internet through conatinment and compartmentizing
-    applications. We dont need other people to see our 
-    credentials during a casual browsing session.
+    applications.
+
+	We dont need other people to see our credentials during
+	a casual browsing session.
 
     If you make changes to this, please make it easy to identify 
     by adding your name to the main task you edited. It will be easier
     later down the road. Thank You.
 
     I will later make a word document that will have highlights on
-    recommended user changes. If a way to simplify, please share.
+    recommended user changes.
+
+	If a way to simplify, please share.
 ')}"
 
 #Virtual Drives Setup
