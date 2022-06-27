@@ -35,9 +35,9 @@ powershell -WindowStyle Normal -Command "& {[System.Reflection.Assembly]::LoadWi
                           Special Thanks for the Public Material!
 
 
--Microsoft @ https://docs.microsoft.com/en-us/
+- Microsoft @ https://docs.microsoft.com/en-us/
 
--ChrisTitusTech @ https://github.com/ChrisTitusTech
+- ChrisTitusTech @ https://github.com/ChrisTitusTech
 
 -(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
 
