@@ -65,7 +65,7 @@ Push-Location $PSScriptRoot
 }}
 
 ###################################################################################
-#Welcome Message / Virtual Hard Drive Setup
+#Welcome Message / Virtual Hard Drive Setup (Missing Header)
 ###################################################################################
 powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('
                                             -The main goal!!!!!
@@ -122,7 +122,7 @@ Write-Host "Virtual Drives Enabled" -foregroundcolor "green"
 }
 
 ###################################################################################
-#Welcome Message / Copying Files
+#Welcome Message / Copying Files (Missing Header)
 ###################################################################################
 
 #Ketarin
@@ -156,7 +156,7 @@ Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Write-Host "Shortcuts and Directories Enabled" -foregroundcolor "Green"
 
 ###################################################################################
-#System Hardening
+#System Hardening (From ChrisTitusTech) (Missing DOD Security (TENS Source?) - VM Disabling)
 ###################################################################################
 $Bloatware = @(
         #Unnecessary Windows 10 AppX Apps
@@ -602,7 +602,7 @@ If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU")) {
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "DeferQualityUpdatesPeriodInDays " -Type DWord -Value 4
 
 ###################################################################################
-#Welcome Message / Setup Complete
+#Welcome Message / Setup Complete (Double Check after Install)
 ###################################################################################
 
 #AutoMount Drives At Startup
@@ -640,4 +640,5 @@ Restart-Computer
 
 #Things I might use later...
 
-#What should the default drives be?
+#What should the default virtual drives letters be?
+#
