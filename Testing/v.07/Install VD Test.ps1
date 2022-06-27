@@ -224,19 +224,6 @@ Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs | Out
 #(Something is broken with PowerShell Initializing. Must be done manually.)
 #https://social.technet.microsoft.com/Forums/en-US/888ba154-79cd-41cf-8789-355374156b18/create-vhd-with-powershell-fails-solved
 
-#Diskpart Format from Powershell. Can I create self writing scripts to seperate concepts?
-#NEW-ITEM -Force -path "C:\TEMP" -name diskpartVHD.txt -itemtype "file"
-#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "create vdisk file=$File type=expandable maximum=73728"
-#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "select vdisk file=$File"
-#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "attach vdisk"
-#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "convert gpt"
-#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "create partition primary"
-#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "format FS=NTFS LABEL=""Recovery"" QUICK"
-#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "assign mount=""C:\SYSBackup"""
-#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "exit"
-#DISKPART /S "C:\TEMP\diskpartVHD.txt"
-#Remove-Item "C:\TEMP\diskpartVHD.txt"
-
 New-VHD -Path "C:\Program Files (x86)\Common Files\Containerized-Windows\Apps.vhdx" -Dynamic -SizeBytes 120GB 
 New-VHD -Path "C:\Program Files (x86)\Common Files\Containerized-Windows\Downloads.vhdx" -Dynamic -SizeBytes 120GB 
 New-VHD -Path "C:\Program Files (x86)\Common Files\Containerized-WindowsEmail.vhdx" -Dynamic -SizeBytes 20GB 
