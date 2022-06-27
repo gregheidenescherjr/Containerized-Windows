@@ -1,3 +1,4 @@
+#Run current script as Admin.
 PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
 
 #Note from Gregory Heidenescher Jr.
@@ -640,8 +641,10 @@ powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWi
 YOUR DEFAULT VIRTUAL DRIVES ARE:
 
 G:\ APPS (Portable Applications Go Here)
-H:\ DOWNLOADS (Change your default downloads user folder to "H:\Downloads"
+H:\ DOWNLOADS (Change your default downloads user folder to "H:\Downloads")
 Y:\ EMAIL (Email Program Here - Seperate from Main OS.)
+
+Shortcuts @ C:\Users\Public\Documents\
 
 ')}"
 
