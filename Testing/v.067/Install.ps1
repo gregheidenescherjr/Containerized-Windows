@@ -4,7 +4,8 @@ PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process
 #If anything comes from this project. No I am not certified. I got high and said, "Lets try something...", and this is the evolution of it...
 #You dont need a formal education to learn this stuff, just a natrual curiosity.
 #I am a nerd, not as big as others, but my curiosity to learn something can be shown in this project.
-#I battle depression, and this can be considered a distraction from my dark thoughts. So yes, it is always good to learn something...
+#I battle depression, and this can be considered a distraction from my dark thoughts.
+#So yes, it is always good to learn something...
 
 #Set Directory to PSScriptRoot
 if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
@@ -248,7 +249,7 @@ $Bloatware = @(
 
 Write-Host "Removing Bloatware"
 
-    foreach ($Bloat in $Bloatware) {
+foreach ($Bloat in $Bloatware) {
         Get-AppxPackage -Name $Bloat| Remove-AppxPackage
         Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like $Bloat | Remove-AppxProvisionedPackage -Online
         Write-Host "Trying to remove $Bloat."
@@ -346,7 +347,7 @@ $services = @(
 		
 Write-Host "Setting Manual Services"
         
-   foreach ($service in $services) {
+foreach ($service in $services) {
             # -ErrorAction SilentlyContinue is so it doesn't write an error to stdout if a service doesn't exist
         
             Write-Host "Setting $service StartupType to Manual"
@@ -397,7 +398,7 @@ Write-Host "Disabling Activity History..."
 
 Write-Host "Disabling Hibernation..."
         Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Session Manager\Power" -Name "HibernteEnabled" -Type Dword -Value 0
-        If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings")) {
+If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings")) {
             New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" | Out-Null
 }
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowHibernateOption" -Type Dword -Value 0
@@ -411,7 +412,7 @@ Write-Host "Allowing Home Groups services..."
 
 
 Write-Host "Disabling Location Tracking..."
-    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) {
+If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) {
     New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Force | Out-Null
 }
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Type String -Value "Deny"
