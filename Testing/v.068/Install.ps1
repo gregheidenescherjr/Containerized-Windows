@@ -762,7 +762,7 @@ Restart-Computer
 title Remember, Notes for Creator...
 ###################################################################################
 
-#Things I might use later...
+Write-Host "Things I might use later...
 
 #New-event 
 
@@ -780,4 +780,6 @@ title Remember, Notes for Creator...
 #      Set-AuthenticodeSignature [-filePath] string[]
 #           [-certificate] X509Certificate2  [-includeChain string]
 #              [-timeStampServer string] [-HashAlgorithm string]
-#                 [-force] [-whatIf] [-confirm] [CommonParameters]
+#                 [-force] [-whatIf] [-confirm] [CommonParameters]"
+pause
+exit
