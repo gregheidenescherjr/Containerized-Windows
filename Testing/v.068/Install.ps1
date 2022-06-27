@@ -1,3 +1,4 @@
+title Remember, Containerized-Windows Installer 
 #Note from Gregory Heidenescher Jr.
 #If anything comes from this project. No I am not certified. I got high and said, "Lets try something...", and this is the evolution of it...
 #You dont need a formal education to learn this stuff, just a natrual curiosity.
@@ -114,8 +115,9 @@ Project Initialized on 5/30/2022
  3.70 GHz
  Installed RAM	64.0 GB
  System type	64-bit operating system, x64-based processor
+')}"
 
-
+powershell -WindowStyle Normal -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('                          Containerized Windows Setup.
                           Special Thanks for the Public Material!
 
 
@@ -135,6 +137,7 @@ Project Initialized on 5/30/2022
 
 -(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
 
+- (How to organize code) MCP Mag @ https://mcpmag.com/articles/2018/03/22/organizing-powershell-code-regions.aspx
 ')}"
 
 
@@ -756,12 +759,13 @@ Restart-Computer
 #endregion
 
 ###################################################################################
-#Notes for Creator
+title Remember, Notes for Creator...
 ###################################################################################
 
 #Things I might use later...
 
 #New-event 
+
 #Backup-GPO \ #Restore-GPO  (How to make universal without hassel?)
 
 #Does this do the same thing as a popup?
