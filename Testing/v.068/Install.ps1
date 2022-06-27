@@ -17,7 +17,13 @@ if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
 
 powershell -WindowStyle Normal -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('                          Containerized Windows Setup.
     Containerized Windows
-    Project Initialized on 5/30/2022 
+	
+	This installer does not have a GUI
+	Nor is it pretty.
+	Everything was made with what I learned about PowerShell.
+    
+Project Initialized on 5/30/2022 
+
                                 by:
     Gregory Heidenescher Jr - Creator/Tester
     Christopher Southerland - Creator/Alpha Tester
