@@ -6,6 +6,16 @@ title Remember, Containerized-Windows Installer
 #I battle depression, and this can be considered a distraction from my dark thoughts.
 #So yes, it is always good to learn something...
 
+Function Containerized-Windows
+{
+Param ($Param1)
+Begin{ write-host "Starting"}
+Process{ write-host "processing" $_ for $Param1}
+End{write-host "Ending"}
+}
+Export-ModuleMember -Function Containerized-Windows
+
+
 Write-Warning "You are using this at your own risk.
 This will ask you to create additional User Accounts.
 This will create virtual drives on your computer.
@@ -56,13 +66,7 @@ PROCESS {
 }  
 #endregion User OS Information
 
-#Function Test-Demo
-# {
-#  Param ($Param1)
-#  Begin{ write-host "Starting"}
-#  Process{ write-host "processing" $_ for $Param1}
-#  End{write-host "Ending"}
-# }
+
 #Echo Testing1, Testing2 | Test-Demo Sample
 
 ###################################################################################
@@ -174,103 +178,7 @@ Push-Location $PSScriptRoot
 2{
 	#Diskpart Format from Powershell. Can I create self writing scripts to seperate concepts?
 NEW-ITEM -Force -path "C:\TEMP" -name usersT.txt -itemtype "file"
-        ADD-CONTENT -Path "C:\TEMP\usersT.txt" "@echo off
-		echo Checking for permissions
-		>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
-		
-		echo Permission check result: %errorlevel%
-		REM --> If error flag set, we do not have admin.
-		
-		if '%errorlevel%' NEQ '0' (
-		echo Requesting administrative privileges...
-		goto UACPrompt
-		) else ( goto gotAdmin )
-		
-		:UACPrompt
-		echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-		echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
-		
-		echo Running created temporary "%temp%\getadmin.vbs"
-		timeout /T 2
-		"%temp%\getadmin.vbs"
-		exit /B
-		
-		:gotAdmin
-		if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
-		pushd "%CD%"
-		CD /D "%~dp0" 
-		
-		echo Batch was successfully started with admin privileges
-		echo .
-		cls
-		GOTO:menu
-		
-:menu
-Title Windows Sandbox Installer
-echo --------------------------------------------------
-echo Windows Sandbox?
-echo 1 Install
-echo 2 Uninstall
-echo 3 Skip to Hyper-V
-set /p uni= Select Option:
-if %uni% ==1 goto :in
-if %uni% ==2 goto :un
-if %uni% ==3 goto :remenu
-
-:in
-cls
-Title Install Sandbox
-
-pushd "%~dp0"
-
-dir /b %SystemRoot%\servicing\Packages\*Containers*.mum >sandbox.txt
-
-for /f %%i in ('findstr /i . sandbox.txt 2^>nul') do dism /online /norestart /add-package:"%SystemRoot%\servicing\Packages\%%i"
-
-del sandbox.txt
-
-Dism /online /enable-feature /featurename:Containers-DisposableClientVM /LimitAccess /ALL /NoRestart
-
-goto :remenu
-
-:un
-cls
-Title Uninstall Sandbox
-
-pushd "%~dp0"
-
-Dism /online /disable-feature /featurename:Containers-DisposableClientVM /NoRestart
-
-dir /b %SystemRoot%\servicing\Packages\*Containers*.mum >sandbox.txt
-
-for /f %%i in ('findstr /i . sandbox.txt 2^>nul') do dism /online /norestart /remove-package:"%SystemRoot%\servicing\Packages\%%i"
-
-del sandbox.txt
-
-goto :remenu
-
-:remenu
-cls
-Title Hyper-V Installer
-echo --------------------------------------------------
-echo Hyper-V?
-echo 1 Yes
-echo 2 No
-set /p uni=Select Option:
-if %uni% ==1 goto :hv
-if %uni% ==2 goto :ex
-
-:hv
-pushd "%~dp0"
-dir /b %SystemRoot%\servicing\Packages\*Hyper-V*.mum >hyper-v.txt
-for /f %%i in ('findstr /i . hyper-v.txt 2^>nul') do dism /online /norestart /add-package:"%SystemRoot%\servicing\Packages\%%i"
-del hyper-v.txt
-Dism /online /enable-feature /featurename:Microsoft-Hyper-V -All /LimitAccess /ALL
-exit
-
-:ex
-exit
-"
+        ADD-CONTENT -Path "blah"
 
 DISKPART /S "C:\TEMP\usersT.txt" | wait-job
 Remove-Item "C:\TEMP\usersT.txt"
@@ -319,6 +227,7 @@ $mess = "Creating Virtual Apps, Downloads, and Email drives."
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
+
 Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs | Out-Null
 
 #Virtual Drives Setup
@@ -338,25 +247,37 @@ Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs | Out
 #DISKPART /S "C:\TEMP\diskpartVHD.txt"
 #Remove-Item "C:\TEMP\diskpartVHD.txt"
 
-New-VHD -Path "C:\Users\Public\Documents\Apps.vhdx" -Dynamic -SizeBytes 120GB 
-New-VHD -Path "C:\Users\Public\Documents\Downloads.vhdx" -Dynamic -SizeBytes 120GB 
-New-VHD -Path "C:\Users\Public\Documents\Email.vhdx" -Dynamic -SizeBytes 20GB 
-Mount-VHD -path "C:\Users\Public\Documents\Apps.vhdx"
-Mount-VHD -path "C:\Users\Public\Documents\Downloads.vhdx"
-Mount-VHD -path "C:\Users\Public\Documents\Email.vhdx"
+Function Containerized-WindowsVDrives
+{
+Param ($VD)
+
+New-VHD -Path "C:\Program Files (x86)\Common Files\Containerized-Windows\Apps.vhdx" -Dynamic -SizeBytes 120GB 
+New-VHD -Path "C:\Program Files (x86)\Common Files\Containerized-Windows\Downloads.vhdx" -Dynamic -SizeBytes 120GB 
+New-VHD -Path "C:\Program Files (x86)\Common Files\Containerized-WindowsEmail.vhdx" -Dynamic -SizeBytes 20GB 
+Mount-VHD -path "C:\Program Files (x86)\Common Files\Containerized-Windows\Apps.vhdx"
+Mount-VHD -path "C:\Program Files (x86)\Common Files\Containerized-Windows\Downloads.vhdx"
+Mount-VHD -path "C:\Program Files (x86)\Common Files\Containerized-Windows\Email.vhdx"
 Write-Host "You will have to manually initialize and exit Drive Management. This is a current bug with powershell." -foregroundcolor "Yellow"
 pause
 Write-Host "After Initializing, remember your disk number if you need to edit this script for yourself." -foregroundcolor "Yellow"
 pause
 Start-Process diskmgmt.msc -Wait
 pause
-Get-VHD -path "C:\Users\Public\Documents\Apps.vhdx"
+Get-VHD -path "C:\Program Files (x86)\Common Files\Containerized-Windows\Apps.vhdx"
 New-Partition -DiskNumber 2 -Size 120GB -DriveLetter G | Format-Volume -FileSystem NTFS -Confirm:$false -Force
-Get-VHD -path "C:\Users\Public\Documents\Downloads.vhdx"
+Get-VHD -path "C:\Program Files (x86)\Common Files\Containerized-Windows\Downloads.vhdx"
 New-Partition -DiskNumber 3 -Size 120GB -DriveLetter H | Format-Volume -FileSystem NTFS -Confirm:$false -Force
-Get-VHD -path "C:\Users\Public\Documents\Email.vhdx"
+Get-VHD -path "C:\Program Files (x86)\Common Files\Containerized-Windows\Email.vhdx"
 New-Partition -DiskNumber 4 -Size 20GB -DriveLetter Y | Format-Volume -FileSystem NTFS -Confirm:$false -Force
-Write-Host "Virtual Drives Enabled" -foregroundcolor "green"	
+Write-Host "Virtual Drives Created" -foregroundcolor "green"	
+
+Begin{ write-host "Starting"}
+Process{ write-host "processing" $_ for $VD}
+End{write-host "Ending"}
+}
+Export-ModuleMember -Function Containerized-WindowsVDrives
+
+
 }
 }
 #endregion
@@ -375,7 +296,7 @@ Write-Host "Virtual Drives Enabled" -foregroundcolor "green"
 #Uncomment the next line if necessary...
 #iisreset
 
-Copy-Item .\Containerize\InitialSetups -Destination G:\ -recurse -Force -PassThru
+Copy-Item .\Containerize\InitialSetups -Destination C:\Program Files (x86)\Common Files\Containerized-Windows -recurse -Force -PassThru
 #Open File
 start-process -FilePath ".\Containerize\InitialSetups\Ketarin\Released\Ketarin-1.8.11\Ketarin.exe" -Verb runas -Wait | Out-Null
 Remove-Item '.\Containerize\InitialSetups\'
@@ -383,19 +304,19 @@ Write-Host "Recomended Applications Installed" -foregroundcolor "green"
 
 #Creating Shortcuts and Directories
 $SourceFilePath = "G:\"
-$ShortcutPath = "C:\Users\Public\Documents\Apps.lnk"
+$ShortcutPath = "C:\Program Files (x86)\Common Files\Containerized-Windows\Apps.lnk"
 $WScriptObj = New-Object -ComObject ("WScript.Shell")
 $shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
 $shortcut.TargetPath = $SourceFilePath
 $shortcut.Save()
 $SourceFilePath = "H:\"
-$ShortcutPath = "C:\Users\Public\Documents\Downloads.lnk"
+$ShortcutPath = "C:\Program Files (x86)\Common Files\Containerized-Windows\Downloads.lnk"
 $WScriptObj = New-Object -ComObject ("WScript.Shell")
 $shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
 $shortcut.TargetPath = $SourceFilePath
 $shortcut.Save()
 $SourceFilePath = "Y:\"
-$ShortcutPath = "C:\Users\Public\Documents\Downloads.lnk"
+$ShortcutPath = "C:\Program Files (x86)\Common Files\Containerized-Windows\Downloads.lnk"
 $WScriptObj = New-Object -ComObject ("WScript.Shell")
 $shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
 $shortcut.TargetPath = $SourceFilePath
@@ -405,9 +326,9 @@ New-Item -FilePath "H:\Documents" -itemType Directory
 New-Item -FilePath "H:\Picutres" -itemType Directory
 New-Item -FilePath "H:\Downloads" -itemType Directory
 
-Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Documents"
-Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
-Copy-Item ".\Containerize\Scripts\AutoMount.xml" -Destination "C:\Users\Public\Documents"
+Copy-Item ".\Secure Internet.wsb" -Destination "C:\Program Files (x86)\Common Files\Containerized-Windows"
+Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Program Files (x86)\Common Files\Containerized-Windows"
+Copy-Item ".\Containerize\Scripts\AutoMount.xml" -Destination "C:\Program Files (x86)\Common Files\Containerized-Windows"
 Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Desktop"
 Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Desktop"
 
@@ -923,6 +844,10 @@ Need to look into UserGroup Device Owner.
 Update-Script \ Save-Module (Interesting) https://docs.microsoft.com/en-us/powershell/scripting/developer/module/how-to-write-a-powershell-script-module?view=powershell-7.2
 
 
+C:\Program Files (x86)\Common Files\Containerized-Windows
+
 "
+)
 pause
 exit
+
