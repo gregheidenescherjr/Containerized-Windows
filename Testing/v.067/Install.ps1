@@ -625,28 +625,32 @@ powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWi
 
                           Special Thanks for the Public Material!
 
--Microsoft @ https://docs.microsoft.com/en-us/
+- Microsoft @ https://docs.microsoft.com/en-us/
 
 - ChrisTitusTech @ https://github.com/ChrisTitusTech
 
--(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
+- (Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
 
--(Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
+- (Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
 
--(ScoopBoxManager) LAB02-Research @ https://github.com/LAB02-Research/ScoopBoxManager
+- (ScoopBoxManager) LAB02-Research @ https://github.com/LAB02-Research/ScoopBoxManager
 
--(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
+- (Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
+
+YOUR DEFAULT VIRTUAL DRIVES ARE:
+
+G:\ APPS (Portable Applications Go Here)
+H:\ DOWNLOADS (Change your default downloads user folder to "H:\Downloads"
+Y:\ EMAIL (Email Program Here - Seperate from Main OS.)
 
 ')}"
 
 Push-Location $PSScriptRoot
 Restart-Computer
 
-
 ###################################################################################
 #Notes for Creator
 ###################################################################################
-
 
 #Things I might use later...
 
