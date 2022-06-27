@@ -39,6 +39,8 @@ powershell -WindowStyle Normal -Command "& {[System.Reflection.Assembly]::LoadWi
 
 - ChrisTitusTech @ https://github.com/ChrisTitusTech
 
+- SS64 @ https://ss64.com/ps
+
 -(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
 
 -(Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
@@ -155,6 +157,8 @@ Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
 
 Write-Host "Shortcuts and Directories Enabled" -foregroundcolor "Green"
 
+
+$system-harden = {     
 ###################################################################################
 #System Hardening (From ChrisTitusTech) (Missing DOD Security (TENS Source?) - VM Disabling)
 ###################################################################################
@@ -600,6 +604,12 @@ If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU")) {
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "BranchReadinessLevel" -Type DWord -Value 20
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "DeferFeatureUpdatesPeriodInDays" -Type DWord -Value 365
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "DeferQualityUpdatesPeriodInDays " -Type DWord -Value 4
+
+Write-Output 'System Hardened.'
+}
+
+$encoded = [convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($system-harden))
+powershell.exe -NoProfile -EncodedCommand $encoded
 
 ###################################################################################
 #Welcome Message / Setup Complete (Double Check after Install)
