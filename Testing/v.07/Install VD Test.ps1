@@ -6,16 +6,6 @@ title Remember, Containerized-Windows Installer
 #I battle depression, and this can be considered a distraction from my dark thoughts.
 #So yes, it is always good to learn something...
 
-Function Containerized-Windows
-{
-Param ($Param1)
-Begin{ write-host "Starting"}
-Process{ write-host "processing" $_ for $Param1}
-End{write-host "Ending"}
-}
-Export-ModuleMember -Function Containerized-Windows
-
-
 Write-Warning "You are using this at your own risk.
 This will ask you to create additional User Accounts.
 This will create virtual drives on your computer.
@@ -247,10 +237,6 @@ Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs | Out
 #DISKPART /S "C:\TEMP\diskpartVHD.txt"
 #Remove-Item "C:\TEMP\diskpartVHD.txt"
 
-Function Containerized-WindowsVDrives
-{
-Param ($VD)
-
 New-VHD -Path "C:\Program Files (x86)\Common Files\Containerized-Windows\Apps.vhdx" -Dynamic -SizeBytes 120GB 
 New-VHD -Path "C:\Program Files (x86)\Common Files\Containerized-Windows\Downloads.vhdx" -Dynamic -SizeBytes 120GB 
 New-VHD -Path "C:\Program Files (x86)\Common Files\Containerized-WindowsEmail.vhdx" -Dynamic -SizeBytes 20GB 
@@ -270,13 +256,6 @@ New-Partition -DiskNumber 3 -Size 120GB -DriveLetter H | Format-Volume -FileSyst
 Get-VHD -path "C:\Program Files (x86)\Common Files\Containerized-Windows\Email.vhdx"
 New-Partition -DiskNumber 4 -Size 20GB -DriveLetter Y | Format-Volume -FileSystem NTFS -Confirm:$false -Force
 Write-Host "Virtual Drives Created" -foregroundcolor "green"	
-
-Begin{ write-host "Starting"}
-Process{ write-host "processing" $_ for $VD}
-End{write-host "Ending"}
-}
-Export-ModuleMember -Function Containerized-WindowsVDrives
-
 
 }
 }
@@ -298,7 +277,7 @@ Export-ModuleMember -Function Containerized-WindowsVDrives
 
 Copy-Item .\Containerize\InitialSetups -Destination C:\Program Files (x86)\Common Files\Containerized-Windows -recurse -Force -PassThru
 #Open File
-start-process -FilePath ".\Containerize\InitialSetups\Ketarin\Released\Ketarin-1.8.11\Ketarin.exe" -Verb runas -Wait | Out-Null
+start-process -FilePath "C:\Program Files (x86)\Common Files\Containerized-Windows\Containerize\InitialSetups\Ketarin\Released\Ketarin-1.8.11\Ketarin.exe" -Verb runas -Wait | Out-Null
 Remove-Item '.\Containerize\InitialSetups\'
 Write-Host "Recomended Applications Installed" -foregroundcolor "green"
 
