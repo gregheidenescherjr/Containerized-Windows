@@ -1587,6 +1587,24 @@ Need to look into UserGroup Device Owner.
 
 Update-Script \ Save-Module (Interesting) https://docs.microsoft.com/en-us/powershell/scripting/developer/module/how-to-write-a-powershell-script-module?view=powershell-7.2
 
+New-Installer -Product "Containerized Windows" -UpgradeCode '1a73a1be-50e6-4e92-af03-586f4a9d9e82' -Content {
+    New-InstallerDirectory -PredefinedDirectory "ProgramFilesFolder"  -Content {
+       New-InstallerDirectory -DirectoryName "Containerized Windows" -Content {
+          New-InstallerFile -Source .\install.ps1
+       }
+    }
+ } -OutputDirectory (Join-Path $PSScriptRoot "output") -RequiresElevation
+
+
+https://jrsoftware.org/isinfo.php
+
+https://nsis.sourceforge.io/Main_Page
+
+https://sourceforge.net/projects/msi-repository/files/latest/download
+
+https://thwack.solarwinds.com/resources/thwack-emea/f/forum/5618/how-to-convert-functions-to-a-powershell-module#:~:text=At%20its%20simplest%2C%20a%20PowerShell%20module%20can%20be,module.%20Function%20Write-Hello%20%7B%20write-host%20%22Hello%20World%22%20%7D
+
+
 
 "
 pause
