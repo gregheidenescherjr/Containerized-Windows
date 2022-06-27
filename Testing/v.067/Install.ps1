@@ -629,7 +629,7 @@ G:\ APPS (Portable Applications Go Here)
 H:\ DOWNLOADS (Change your default downloads user folder to "H:\Downloads")
 Y:\ EMAIL (Email Program Here - Seperate from Main OS.)
 
-Shortcuts @ C:\Users\Public\Documents\
+Shortcuts @ "C:\Users\Public\Documents\"
 
 ')}"
 
