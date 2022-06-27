@@ -6,6 +6,12 @@ title Remember, Containerized-Windows Installer
 #I battle depression, and this can be considered a distraction from my dark thoughts.
 #So yes, it is always good to learn something...
 
+Write-Warning "You are using this at your own risk.
+This will ask you to create additional User Accounts.
+This will create virtual drives on your computer.
+This will show you my reccomended applicantions with predefined locations.
+This will Make Changes to your current Windows Installation.
+Do you accept the risk?" -WarningAction Inquire
 #Run current script as Admin.
 PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
 #Set Directory to PSScriptRoot
@@ -215,7 +221,6 @@ Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs | Out
 #DISKPART /S "C:\TEMP\diskpartVHD.txt"
 #Remove-Item "C:\TEMP\diskpartVHD.txt"
 
-
 New-VHD -Path "C:\Users\Public\Documents\Apps.vhdx" -Dynamic -SizeBytes 120GB 
 New-VHD -Path "C:\Users\Public\Documents\Downloads.vhdx" -Dynamic -SizeBytes 120GB 
 New-VHD -Path "C:\Users\Public\Documents\Email.vhdx" -Dynamic -SizeBytes 20GB 
@@ -240,7 +245,7 @@ Write-Host "Virtual Drives Enabled" -foregroundcolor "green"
 #endregion
 
 ###################################################################################
-# Welcome Message / Copying Files (Missing Header)
+# Copying Files (Missing Header)
 ###################################################################################
 #region
 #Ketarin (Consider Add-Type -LiteralPath "$packagesRoot\Data.dll")
