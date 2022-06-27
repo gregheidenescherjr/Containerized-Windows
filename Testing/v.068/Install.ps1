@@ -649,7 +649,6 @@ Restart-Computer
 #Things I might use later...
 
 #New-event 
-#Backup-GPO
-#Restore-GPO
+#Backup-GPO \ #Restore-GPO  (How to make universal without hassel?)
 
 #Does this do the same thing as a popup?
