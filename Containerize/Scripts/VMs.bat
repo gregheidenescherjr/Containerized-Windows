@@ -35,11 +35,11 @@ echo --------------------------------------------------
 echo Windows Sandbox?
 echo 1 Install
 echo 2 Uninstall
-echo 3 Finish
+echo 3 Skip to Hyper-V
 set /p uni= Select Option:
 if %uni% ==1 goto :in
 if %uni% ==2 goto :un
-if %uni% ==3 goto :ex
+if %uni% ==3 goto :remenu
 
 :in
 cls

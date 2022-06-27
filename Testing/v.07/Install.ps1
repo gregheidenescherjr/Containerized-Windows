@@ -1,4 +1,4 @@
-title Remember, Containerized-Windows Installer 
+title Containerized-Windows Installer v0.7
 #Note from Gregory Heidenescher Jr.
 #If anything comes from this project. No I am not certified. I got high and said, "Lets try something...", and this is the evolution of it...
 #You dont need a formal education to learn this stuff, just a natrual curiosity.
@@ -155,7 +155,8 @@ powershell -WindowStyle Normal -Command "& {[System.Reflection.Assembly]::LoadWi
 #Root User Setup
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
 $no = New-Object System.Management.Automation.Host.ChoiceDescription "&No","Description."
-$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no)
+$test = New-Object System.Management.Automation.Host.ChoiceDescription "&Beta","Description."
+$options = [System.Management.Automation.Host.ChoiceDescription[]]($yes, $no, $test)
 $heading = "Containerized Windows Setup"
 $mess = "Would You Like To Install Root And User Accounts??"
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
@@ -165,8 +166,114 @@ Push-Location $PSScriptRoot
 Start-Process "cmd.exe" -File ".\Containerize\Scripts\Users.bat""" -Verb RunAs -Wait | Out-Null
 }1{
 Push-Location $PSScriptRoot
-}}
+2{
+	#Diskpart Format from Powershell. Can I create self writing scripts to seperate concepts?
+NEW-ITEM -Force -path "C:\TEMP" -name usersT.txt -itemtype "file"
+        ADD-CONTENT -Path "C:\TEMP\usersT.txt" "@echo off
+		echo Checking for permissions
+		>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+		
+		echo Permission check result: %errorlevel%
+		REM --> If error flag set, we do not have admin.
+		
+		if '%errorlevel%' NEQ '0' (
+		echo Requesting administrative privileges...
+		goto UACPrompt
+		) else ( goto gotAdmin )
+		
+		:UACPrompt
+		echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+		echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
+		
+		echo Running created temporary "%temp%\getadmin.vbs"
+		timeout /T 2
+		"%temp%\getadmin.vbs"
+		exit /B
+		
+		:gotAdmin
+		if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
+		pushd "%CD%"
+		CD /D "%~dp0" 
+		
+		echo Batch was successfully started with admin privileges
+		echo .
+		cls
+		GOTO:menu
+		
+:menu
+Title Windows Sandbox Installer
+echo --------------------------------------------------
+echo Windows Sandbox?
+echo 1 Install
+echo 2 Uninstall
+echo 3 Skip to Hyper-V
+set /p uni= Select Option:
+if %uni% ==1 goto :in
+if %uni% ==2 goto :un
+if %uni% ==3 goto :remenu
+
+:in
+cls
+Title Install Sandbox
+
+pushd "%~dp0"
+
+dir /b %SystemRoot%\servicing\Packages\*Containers*.mum >sandbox.txt
+
+for /f %%i in ('findstr /i . sandbox.txt 2^>nul') do dism /online /norestart /add-package:"%SystemRoot%\servicing\Packages\%%i"
+
+del sandbox.txt
+
+Dism /online /enable-feature /featurename:Containers-DisposableClientVM /LimitAccess /ALL /NoRestart
+
+goto :remenu
+
+:un
+cls
+Title Uninstall Sandbox
+
+pushd "%~dp0"
+
+Dism /online /disable-feature /featurename:Containers-DisposableClientVM /NoRestart
+
+dir /b %SystemRoot%\servicing\Packages\*Containers*.mum >sandbox.txt
+
+for /f %%i in ('findstr /i . sandbox.txt 2^>nul') do dism /online /norestart /remove-package:"%SystemRoot%\servicing\Packages\%%i"
+
+del sandbox.txt
+
+goto :remenu
+
+:remenu
+cls
+Title Hyper-V Installer
+echo --------------------------------------------------
+echo Hyper-V?
+echo 1 Yes
+echo 2 No
+set /p uni=Select Option:
+if %uni% ==1 goto :hv
+if %uni% ==2 goto :ex
+
+:hv
+pushd "%~dp0"
+dir /b %SystemRoot%\servicing\Packages\*Hyper-V*.mum >hyper-v.txt
+for /f %%i in ('findstr /i . hyper-v.txt 2^>nul') do dism /online /norestart /add-package:"%SystemRoot%\servicing\Packages\%%i"
+del hyper-v.txt
+Dism /online /enable-feature /featurename:Microsoft-Hyper-V -All /LimitAccess /ALL
+exit
+
+:ex
+exit
+"
+
+Start-Process CMD.exe -File "C:\TEMP\usersT.txt" | wait-job
+Remove-Item "C:\TEMP\usersT.txt"
+}
+}
 #endregion
+
+
 
 ###################################################################################
 #Welcome Message / Virtual Hard Drive Setup (Missing Header)
@@ -787,6 +894,8 @@ Containerizing allows minimizing exopsed data.
 VM destroyed after use.
 What is minimum traffic? (Windows Firewall)
 Increased security for the general user. Potentialy.
+
+Need to look into UserGroup Device Owner.
 
 #New-event 
 
