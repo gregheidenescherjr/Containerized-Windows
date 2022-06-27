@@ -62,7 +62,7 @@ $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
 Push-Location $PSScriptRoot
-Start-Process "cmd.exe" -File ".\Containerize\Scripts\Users.bat""" -Verb RunAs
+Start-Process "cmd.exe" -File ".\Containerize\Scripts\Users.bat""" -Verb RunAs  | Out-Null
 }1{
 Push-Location $PSScriptRoot
 }}
@@ -98,7 +98,7 @@ $mess = "Creating Virtual Apps, Downloads, and Email drives."
 $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
-Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs
+Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs | Out-Null
 
 #Virtual Drives Setup
 #(Something is broken with PowerShell Initializing. Must be done manually.)
@@ -131,7 +131,7 @@ Write-Host "Virtual Drives Enabled" -foregroundcolor "green"
 #Ketarin
 Copy-Item .\Containerize\InitialSetups -Destination G:\ -recurse -Force -PassThru
 #Install file
-start-process -FilePath ".\Containerize\InitialSetups\Ketarin\Released\Ketarin-1.8.11\Ketarin.exe" -Verb runas
+start-process -FilePath ".\Containerize\InitialSetups\Ketarin\Released\Ketarin-1.8.11\Ketarin.exe" -Verb runas  | Out-Null
 Remove-Item '.\Containerize\InitialSetups\'
 Write-Host "Recomended Applications Installed" -foregroundcolor "green"
 
@@ -155,9 +155,9 @@ New-Item -FilePath "H:\Downloads" -itemType Directory
 
 Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
+Copy-Item ".\Containerize\Scripts\AutoMount.xml" -Destination "C:\Users\Public\Documents"
 
 Write-Host "Shortcuts and Directories Enabled" -foregroundcolor "Green"
-
 
 $system-harden = {     
 ###################################################################################
@@ -617,26 +617,11 @@ powershell.exe -NoProfile -EncodedCommand $encoded
 ###################################################################################
 
 #AutoMount Drives At Startup
-#Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMountVDrives.xml" | Out-String) -TaskName "AutoMountDrives" -TaskPath "C:\Windows\System32\Tasks" -Force
+#Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMount.xml" | Out-String) -TaskName "AutoMount" -TaskPath "C:\Windows\System32\Tasks" -Force
 
 powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('                          Containerized Windows Setup.
     ***Sandbox User Folders: %PROGRAMDATA%\Microsoft\Windows\Containers\<GUID>
 	\BaseLayer\Files\Users\WDAGUtilityAccount\Documents***
-#test pull-request southerland	
-
-                          Special Thanks for the Public Material!
-
-- Microsoft @ https://docs.microsoft.com/en-us/
-
-- ChrisTitusTech @ https://github.com/ChrisTitusTech
-
-- (Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
-
-- (Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
-
-- (ScoopBoxManager) LAB02-Research @ https://github.com/LAB02-Research/ScoopBoxManager
-
-- (Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
 
 YOUR DEFAULT VIRTUAL DRIVES ARE:
 
@@ -648,7 +633,6 @@ Shortcuts @ C:\Users\Public\Documents\
 
 ')}"
 
-Push-Location $PSScriptRoot
 Restart-Computer
 
 ###################################################################################
