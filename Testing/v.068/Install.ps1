@@ -151,7 +151,7 @@ $rslt = $host.ui.PromptForChoice($heading, $mess, $options, 0)
 switch ($rslt) {
 0{
 Push-Location $PSScriptRoot
-Start-Process "cmd.exe" -File ".\Containerize\Scripts\Users.bat""" -Verb RunAs  | Out-Null
+Start-Process "cmd.exe" -File ".\Containerize\Scripts\Users.bat""" -Verb RunAs -Wait | Out-Null
 }1{
 Push-Location $PSScriptRoot
 }}
@@ -202,7 +202,7 @@ Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs | Out
 #(Something is broken with PowerShell Initializing. Must be done manually.)
 #https://social.technet.microsoft.com/Forums/en-US/888ba154-79cd-41cf-8789-355374156b18/create-vhd-with-powershell-fails-solved
 
-#Diskpart Format
+#Diskpart Format from Powershell. Can I create self writing scripts to seperate concepts?
 #NEW-ITEM -Force -path "C:\TEMP" -name diskpartVHD.txt -itemtype "file"
 #        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "create vdisk file=$File type=expandable maximum=73728"
 #        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "select vdisk file=$File"
@@ -226,7 +226,7 @@ Write-Host "You will have to manually initialize and exit Drive Management. This
 pause
 Write-Host "After Initializing, remember your disk number if you need to edit this script for yourself." -foregroundcolor "Yellow"
 pause
-Start-Process diskmgmt.msc
+Start-Process diskmgmt.msc -Wait
 pause
 Get-VHD -path "C:\Users\Public\Documents\Apps.vhdx"
 New-Partition -DiskNumber 2 -Size 120GB -DriveLetter G | Format-Volume -FileSystem NTFS -Confirm:$false -Force
@@ -254,8 +254,8 @@ Write-Host "Virtual Drives Enabled" -foregroundcolor "green"
 #iisreset
 
 Copy-Item .\Containerize\InitialSetups -Destination G:\ -recurse -Force -PassThru
-#Install file
-start-process -FilePath ".\Containerize\InitialSetups\Ketarin\Released\Ketarin-1.8.11\Ketarin.exe" -Verb runas  | Out-Null
+#Open File
+start-process -FilePath ".\Containerize\InitialSetups\Ketarin\Released\Ketarin-1.8.11\Ketarin.exe" -Verb runas -Wait | Out-Null
 Remove-Item '.\Containerize\InitialSetups\'
 Write-Host "Recomended Applications Installed" -foregroundcolor "green"
 
@@ -272,6 +272,12 @@ $WScriptObj = New-Object -ComObject ("WScript.Shell")
 $shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
 $shortcut.TargetPath = $SourceFilePath
 $shortcut.Save()
+$SourceFilePath = "Y:\"
+$ShortcutPath = "C:\Users\Public\Documents\Downloads.lnk"
+$WScriptObj = New-Object -ComObject ("WScript.Shell")
+$shortcut = $WscriptObj.CreateShortcut($ShortcutPath)
+$shortcut.TargetPath = $SourceFilePath
+$shortcut.Save()
 
 New-Item -FilePath "H:\Documents" -itemType Directory
 New-Item -FilePath "H:\Picutres" -itemType Directory
@@ -280,8 +286,10 @@ New-Item -FilePath "H:\Downloads" -itemType Directory
 Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\Containerize\Scripts\AutoMount.xml" -Destination "C:\Users\Public\Documents"
+Copy-Item ".\Secure Internet.wsb" -Destination "C:\Users\Public\Desktop"
+Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Desktop"
 
-Write-Host "Shortcuts and Directories Enabled" -foregroundcolor "Green"
+Write-Host "Shortcuts and Directories Created" -foregroundcolor "Green"
 #endregion
 
 $system-harden = {     
