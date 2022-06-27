@@ -11,7 +11,12 @@ This will ask you to create additional User Accounts.
 This will create virtual drives on your computer.
 This will show you my reccomended applicantions with predefined locations.
 This will Make Changes to your current Windows Installation.
-Do you accept the risk?" -WarningAction Inquire
+Potentialy locking you out of some features for what I think should be a personal security concern.
+Do you accept the risk?
+
+P.S.
+This will not make you anonymous... 
+This is just what I did with public information and boredom." -WarningAction Inquire
 #Run current script as Admin.
 PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
 #Set Directory to PSScriptRoot
@@ -109,7 +114,7 @@ powershell -WindowStyle Normal -Command "& {[System.Reflection.Assembly]::LoadWi
 Project Initialized on 5/30/2022 
 
                                 by:
-    Gregory Heidenescher Jr - Creator/Tester
+    Gregory Heidenescher Jr - Creator/Tester 
     Christopher Southerland - Creator/Alpha Tester
   
                                              Tested On:
