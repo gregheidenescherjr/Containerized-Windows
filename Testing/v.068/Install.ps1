@@ -1,6 +1,3 @@
-#Run current script as Admin.
-PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
-
 #Note from Gregory Heidenescher Jr.
 #If anything comes from this project. No I am not certified. I got high and said, "Lets try something...", and this is the evolution of it...
 #You dont need a formal education to learn this stuff, just a natrual curiosity.
@@ -8,13 +5,93 @@ PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process
 #I battle depression, and this can be considered a distraction from my dark thoughts.
 #So yes, it is always good to learn something...
 
+#Run current script as Admin.
+PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
 #Set Directory to PSScriptRoot
 if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
 
-###################################################################################
-#Welcome Message / User Setup
-###################################################################################
+#Suspend-BitLocker -MountPoint "C:"
+Clear-Host
+get-childitem
+get-childitem cert:\. -recurse -codesigningcert
 
+#User OS Information
+PROCESS {
+    write-host "[$ComputerName]"
+
+    if( (Test-Connection $ComputerName -Quiet -count 1)) {
+        $osinfo = Get-CimInstance Win32_OperatingSystem -computer $ComputerName | select Name, version, servicepackmajorversion, BuildNumber, CSName, OSArchitecture, OperatingSystemSKU
+
+        $os = $osinfo.Name     # OS Name
+        $bitness = $osinfo.OSArchitecture  # 32 or 64 bit
+        $build = $osinfo.BuildNumber       # Build Number
+        $machineName = $osinfo.CSName      # Name of the machine
+        $edition = $osinfo.OperatingSystemSKU  # Windows Edition (home, enterprise etc)
+
+        "Computer: $ComputerName Build: $build   Bitness: $bitness   Edition: $edition"
+
+        # "Full OS String: $os"
+        if ($Logfile) {"$ComputerName : $build : $bitness : $edition" | out-file -append -filepath $Logfile}        
+    }
+    else {
+        Write-Error "$ComputerName Not Responding"
+    }
+}  
+#endregion User OS Information
+
+#Function Test-Demo
+# {
+#  Param ($Param1)
+#  Begin{ write-host "Starting"}
+#  Process{ write-host "processing" $_ for $Param1}
+#  End{write-host "Ending"}
+# }
+#Echo Testing1, Testing2 | Test-Demo Sample
+
+###################################################################################
+# Update to Current 
+###################################################################################
+#region
+$update = {
+#Get the Windows capabilities for the local operating system:#
+Get-WindowsCapability -Online
+#Install all the available RSAT tools:
+#Get-WindowsCapability -Name RSAT* -Online | Add-WindowsCapability –Online
+#List the currently installed RSAT tools:
+Get-WindowsCapability -Name RSAT* -Online | Select-Object -Property Name, State
+
+#Install all available Web features:
+#Get-WindowsFeature Web-* | Add-WindowsFeature
+
+#Grab Current
+$m = Get-Module -ListAvailable BitsTransfer, ServerManager
+Import-Module -ModuleInfo $m
+#Update help for all modules and ignore any errors
+Update-Help -force -erroraction silentlycontinue
+#Update all modules
+Update-Module
+#List Current "User OS Features"
+#Get-WindowsOptionalFeature –Online
+Get-WindowsOptionalFeature –Online | Where {$_.state -eq 'Disabled'} | Select FeatureName | Sort FeatureName
+#Get-WindowsOptionalFeature –Path "c:\offline" –PackageName "Microsoft-Windows-Backup-Package~31bf3856ad364e35~x86~~6.1.7601.16525"
+#Get-WindowsOptionalFeature –Path "c:\offline" –FeatureName "MyFeature" –PackagePath "c:\packages\package.cab"
+
+#Find-Package            Find software packages in available package sources.
+#Install-Package            Install one or more software packages.
+#Uninstall-Package            Uninstall one or more software packages.
+
+#Install a PowerShell module from a local server:
+#Register-PSRepository -Name 'Containerize Windows' -SourceLocation '.\'
+#Install-Module 'Containerize-Module' -Repository 'Containerized Windows'
+}
+#Invoke-Command -ScriptBlock $update
+
+#endregion
+
+###################################################################################
+# Welcome Message / User Setup
+###################################################################################
+#region
 powershell -WindowStyle Normal -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('                          Containerized Windows Setup.
     Containerized Windows
 	
@@ -44,9 +121,11 @@ Project Initialized on 5/30/2022
 
 - Microsoft @ https://docs.microsoft.com/en-us/
 
+- SS64 @ https://ss64.com/ps
+
 - ChrisTitusTech @ https://github.com/ChrisTitusTech
 
-- SS64 @ https://ss64.com/ps
+- Alex_Muc @ https://social.technet.microsoft.com/Forums/en-US/888ba154-79cd-41cf-8789-355374156b18/create-vhd-with-powershell-fails-solved
 
 -(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
 
@@ -57,6 +136,7 @@ Project Initialized on 5/30/2022
 -(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
 
 ')}"
+
 
 #Root User Setup
 $yes = New-Object System.Management.Automation.Host.ChoiceDescription "&Yes","Description."
@@ -72,10 +152,12 @@ Start-Process "cmd.exe" -File ".\Containerize\Scripts\Users.bat""" -Verb RunAs  
 }1{
 Push-Location $PSScriptRoot
 }}
+#endregion
 
 ###################################################################################
 #Welcome Message / Virtual Hard Drive Setup (Missing Header)
 ###################################################################################
+#region
 powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('
                                             -The main goal!!!!!
 
@@ -115,6 +197,22 @@ Start-Process "cmd.exe" -File ".\Containerize\Scripts\VMs.bat" -Verb RunAs | Out
 
 #Virtual Drives Setup
 #(Something is broken with PowerShell Initializing. Must be done manually.)
+#https://social.technet.microsoft.com/Forums/en-US/888ba154-79cd-41cf-8789-355374156b18/create-vhd-with-powershell-fails-solved
+
+#Diskpart Format
+#NEW-ITEM -Force -path "C:\TEMP" -name diskpartVHD.txt -itemtype "file"
+#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "create vdisk file=$File type=expandable maximum=73728"
+#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "select vdisk file=$File"
+#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "attach vdisk"
+#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "convert gpt"
+#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "create partition primary"
+#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "format FS=NTFS LABEL=""Recovery"" QUICK"
+#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "assign mount=""C:\SYSBackup"""
+#        ADD-CONTENT -Path "C:\TEMP\diskpartVHD.txt" "exit"
+#DISKPART /S "C:\TEMP\diskpartVHD.txt"
+#Remove-Item "C:\TEMP\diskpartVHD.txt"
+
+
 New-VHD -Path "C:\Users\Public\Documents\Apps.vhdx" -Dynamic -SizeBytes 120GB 
 New-VHD -Path "C:\Users\Public\Documents\Downloads.vhdx" -Dynamic -SizeBytes 120GB 
 New-VHD -Path "C:\Users\Public\Documents\Email.vhdx" -Dynamic -SizeBytes 20GB 
@@ -136,12 +234,22 @@ New-Partition -DiskNumber 4 -Size 20GB -DriveLetter Y | Format-Volume -FileSyste
 Write-Host "Virtual Drives Enabled" -foregroundcolor "green"	
 }
 }
+#endregion
 
 ###################################################################################
-#Welcome Message / Copying Files (Missing Header)
+# Welcome Message / Copying Files (Missing Header)
 ###################################################################################
+#region
+#Ketarin (Consider Add-Type -LiteralPath "$packagesRoot\Data.dll")
 
-#Ketarin
+#Note that you should be running PowerShell as an Administrator
+#[System.Reflection.Assembly]::Load("System.EnterpriseServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")            
+#$publish = New-Object System.EnterpriseServices.Internal.Publish            
+#$publish.GacInstall("C:\Path\To\DLL.dll")
+#If installing into the GAC on a server hosting web applications in IIS, you need to restart IIS for the applications to pick up the change.
+#Uncomment the next line if necessary...
+#iisreset
+
 Copy-Item .\Containerize\InitialSetups -Destination G:\ -recurse -Force -PassThru
 #Install file
 start-process -FilePath ".\Containerize\InitialSetups\Ketarin\Released\Ketarin-1.8.11\Ketarin.exe" -Verb runas  | Out-Null
@@ -171,11 +279,13 @@ Copy-Item ".\UnSecure Internet.wsb" -Destination "C:\Users\Public\Documents"
 Copy-Item ".\Containerize\Scripts\AutoMount.xml" -Destination "C:\Users\Public\Documents"
 
 Write-Host "Shortcuts and Directories Enabled" -foregroundcolor "Green"
+#endregion
 
 $system-harden = {     
 ###################################################################################
-#System Hardening (From ChrisTitusTech) (Missing DOD Security (TENS Source?) - VM Disabling)
+# System Hardening (From ChrisTitusTech) (Missing DOD Security (TENS Source?) - VM Disabling)
 ###################################################################################
+#region
 $Bloatware = @(
         #Unnecessary Windows 10 AppX Apps
         "Microsoft.3DBuilder"
@@ -615,14 +725,15 @@ Write-Host "Disabled driver offering through Windows Update"
 
 Write-Output 'System Hardened.'
 }
+#endregion
 
 $encoded = [convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($system-harden))
 powershell.exe -NoProfile -EncodedCommand $encoded
 
 ###################################################################################
-#Welcome Message / Setup Complete (Double Check after Install)
+# Welcome Message / Setup Complete (Double Check after Install)
 ###################################################################################
-
+#region
 #AutoMount Drives At Startup
 #Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMount.xml" | Out-String) -TaskName "AutoMount" -TaskPath "C:\Windows\System32\Tasks" -Force
 
@@ -639,8 +750,10 @@ Y:\ EMAIL (Email Program Here - Seperate from Main OS.)
 Shortcuts @ "C:\Users\Public\Documents\"
 
 ')}"
-
+Explorer.exe "C:\Users\Public\Documents\"
+#Resume-BitLocker -MountPoint "C:"
 Restart-Computer
+#endregion
 
 ###################################################################################
 #Notes for Creator
@@ -652,3 +765,15 @@ Restart-Computer
 #Backup-GPO \ #Restore-GPO  (How to make universal without hassel?)
 
 #Does this do the same thing as a popup?
+
+#$sess = new-pssession (get-content machines.txt)
+#$commands = 'get-eventlog -log system | where {$_.EntryType -eq "error" -and $_.Source -eq "LSASRV"} | out-file errors.txt'
+
+#invoke-command -session $sess -scriptblock {param($commands)start-job -scriptblock {$commands}} -ArgumentList $commands
+#invoke-command -session $sess -scriptblock {wait-job -any}
+#get-job | wait-job
+
+#      Set-AuthenticodeSignature [-filePath] string[]
+#           [-certificate] X509Certificate2  [-includeChain string]
+#              [-timeStampServer string] [-HashAlgorithm string]
+#                 [-force] [-whatIf] [-confirm] [CommonParameters]
