@@ -260,9 +260,9 @@ $Bloatware = @(
 
         #Optional: Typically not removed but you can if you need to
         "*Microsoft.Advertising.Xaml*"
-        #"*Microsoft.MSPaint*"
+        "*Microsoft.MSPaint*"
         #"*Microsoft.MicrosoftStickyNotes*"
-        #"*Microsoft.Windows.Photos*"
+        "*Microsoft.Windows.Photos*"
         #"*Microsoft.WindowsCalculator*"
         #"*Microsoft.WindowsStore*"
         )
@@ -423,13 +423,11 @@ If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Flyout
 }
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowHibernateOption" -Type Dword -Value 0
 
-
 Write-Host "Allowing Home Groups services..."
         Stop-Service "HomeGroupListener" -WarningAction SilentlyContinue
         Set-Service "HomeGroupListener" -StartupType Manual
         Stop-Service "HomeGroupProvider" -WarningAction SilentlyContinue
         Set-Service "HomeGroupProvider" -StartupType Manual
-
 
 Write-Host "Disabling Location Tracking..."
 If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) {
@@ -444,10 +442,6 @@ If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAcces
 
 Write-Host "Disabling Storage Sense..."
     Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" -Recurse -ErrorAction SilentlyContinue
-
-
-
-
 
 Write-Host "Disabling Telemetry..."
         Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
