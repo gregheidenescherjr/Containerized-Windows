@@ -656,6 +656,3 @@ Restart-Computer
 ###################################################################################
 
 #Things I might use later...
-
-#What should the default virtual drives letters be?
-#
