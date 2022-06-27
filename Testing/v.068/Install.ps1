@@ -764,6 +764,12 @@ title Remember, Notes for Creator...
 
 Write-Host "Things I might use later...
 
+To the general user, they have a potential secure VM.
+Containerizing allows minimizing exopsed data.
+VM destroyed after use.
+What is minimum traffic? (Windows Firewall)
+Increased security for the general user. Potentialy.
+
 #New-event 
 
 #Backup-GPO \ #Restore-GPO  (How to make universal without hassel?)
