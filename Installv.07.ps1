@@ -1604,6 +1604,9 @@ https://sourceforge.net/projects/msi-repository/files/latest/download
 
 https://thwack.solarwinds.com/resources/thwack-emea/f/forum/5618/how-to-convert-functions-to-a-powershell-module#:~:text=At%20its%20simplest%2C%20a%20PowerShell%20module%20can%20be,module.%20Function%20Write-Hello%20%7B%20write-host%20%22Hello%20World%22%20%7D
 
+$home\Documents\WindowsPowerShell\Modules
+
+https://stackoverflow.com/questions/30445716/how-do-i-turn-a-collection-of-script-files-into-a-module
 
 
 "
