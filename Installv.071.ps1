@@ -30,7 +30,7 @@ $host.UI.RawUI.WindowTitle = "Containerized-Windows Installer"
 #Function Test-Demo
 # {
 #  Param ($update)
-#  Begin{ write-host "Starting Function"}
+#  Begin{write-host "Starting Function"}
 #  Process{ write-host "processing" $_ for $update}
 #  End{write-host "Function Complete"}
 # }
