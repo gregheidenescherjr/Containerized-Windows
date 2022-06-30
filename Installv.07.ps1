@@ -15,13 +15,14 @@ if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
 #Suspend-BitLocker -MountPoint "C:"
 
 $host.UI.RawUI.WindowTitle = "Containerized-Windows Installer" 
+#How many files do I need? Less is more unless you can help others save resources..... How do you use natraul resources?
 
 #Function Test-Demo
 # {
-#  Param ($Param1)
-#  Begin{ write-host "Starting"}
-#  Process{ write-host "processing" $_ for $Param1}
-#  End{write-host "Ending"}
+#  Param ($update)
+#  Begin{ write-host "Starting Function"}
+#  Process{ write-host "processing" $_ for $update}
+#  End{write-host "Function Complete"}
 # }
 #Echo Testing1, Testing2 | Test-Demo Sample
 
