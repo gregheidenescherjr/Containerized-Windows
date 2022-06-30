@@ -1,9 +1,11 @@
 #Note from Gregory Heidenescher Jr.
-#If anything comes from this project. No I am not certified. I got high and said, "Lets try something...", and this is the evolution of it...
+#If anything comes from this project. No I am not certified. I got high and said, "Lets try something...", 
+#This is the evolution of it...
 #You dont need a formal education to learn this stuff, just a natrual curiosity.
 #I am a nerd, not as big as others, but my curiosity to learn something can be shown in this project.
 #I battle depression, and this can be considered a distraction from my dark thoughts.
 #So yes, it is always good to learn something...
+#I am DOD ID# 1078633987....
 
 #Run current script as Admin.
 PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
@@ -155,7 +157,7 @@ powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWi
 	Should anything be compromised, it was all done
     in a containment area seperate from the main Windows Installation.
     
-	This project, combined with good internet practices...
+	***This project, COMBINED with good internet practices...***
     
     Will help seperate personal information when browsing
     the internet through conatinment and compartmentizing
