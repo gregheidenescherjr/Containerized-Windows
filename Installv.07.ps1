@@ -9,6 +9,8 @@
 #I am fully aware of my habbits... I am not considered for employement...
 #A natrual curiosity is not something you can pay for... like college, or certifications...
 
+#FML...What is Windows IOT?
+
 #Run current script as Admin.
 PowerShell -NoProfile -ExecutionPolicy "Unrestricted" -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy "Unrestricted" -File "".\Install.ps1""'-Verb RunAs}";
 #Set Directory to PSScriptRoot
@@ -774,7 +776,7 @@ Shortcuts @ "C:\Users\Public\Documents\"
 ')}"
 Explorer.exe "C:\Users\Public\Documents\"
 Explorer.exe "C:\ProgramData\Microsoft\Windows\Containers\BaseImages"
-Write-Host " Drill Down To ...<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount to create Sandbox "Preloaded Files""
+Write-Host "Drill Down To ...<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount to create Sandbox "Preloaded Files""
 #Resume-BitLocker -MountPoint "C:"
 pause
 Restart-Computer
