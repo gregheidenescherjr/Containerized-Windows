@@ -68,8 +68,8 @@ Get-WindowsOptionalFeature –Online | Where {$_.state -eq 'Disabled'} | Select 
 #Get-WindowsOptionalFeature –Path "c:\offline" –FeatureName "MyFeature" –PackagePath "c:\packages\package.cab"
 
 #Find-Package            Find software packages in available package sources.
-#Install-Package            Install one or more software packages.
-#Uninstall-Package            Uninstall one or more software packages.
+#Install-Package         Install one or more software packages.
+#Uninstall-Package       Uninstall one or more software packages.
 
 #Install a PowerShell module from a local server:
 #Register-PSRepository -Name 'Containerize Windows' -SourceLocation '.\'
@@ -834,8 +834,6 @@ https://stackoverflow.com/questions/30445716/how-do-i-turn-a-collection-of-scrip
 $guid = [guid]::NewGuid()
 
 New-ModuleManifest -path .\MyModule\MyModule.psd1 -Guid $guid -Author 'Michael Halpin' -Description "Demo Module" -ModuleVersion 0.1
-
-
 
 Chris. Notes here. Sorry, Trying to keep code clean.
 "
