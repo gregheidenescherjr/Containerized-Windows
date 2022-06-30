@@ -114,21 +114,13 @@ powershell -WindowStyle Normal -Command "& {[System.Reflection.Assembly]::LoadWi
 
 
 - Microsoft @ https://docs.microsoft.com/en-us/
-
 - SS64 @ https://ss64.com/ps
-
 - ChrisTitusTech @ https://github.com/ChrisTitusTech
-
 - Alex_Muc @ https://social.technet.microsoft.com/Forums/en-US/888ba154-79cd-41cf-8789-355374156b18/create-vhd-with-powershell-fails-solved
-
 -(Hyper-V Home Edition) Usman Khurshid @ https://www.itechtics.com/enable-hyper-v-windows-10-home/
-
 -(Sandbox Home Edition) Benny @ https://www.deskmodder.de/blog/2019/04/20/windows-10-home-windows-sandbox-installieren-und-nutzen/
-
 -(ScoopBoxManager) LAB02-Research @ https://github.com/LAB02-Research/ScoopBoxManager
-
 -(Ketarin) Canneverbe @ https://github.com/canneverbe/Ketarin
-
 - (How to organize code) MCP Mag @ https://mcpmag.com/articles/2018/03/22/organizing-powershell-code-regions.aspx
 ')}"
 
