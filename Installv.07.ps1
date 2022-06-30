@@ -271,7 +271,7 @@ Write-Host "Shortcuts and Directories Created" -foregroundcolor "Green"
 $systemharden = {     
 ###################################################################################
 $host.UI.RawUI.WindowTitle = "Containerized Windows - System Hardening" 
-#(From ChrisTitusTech) (Missing DOD Security (TENS Source?) - VM Disabling)
+#(From ChrisTitusTech) (Missing DOD Security (TENS Source?)(VM Disabling)
 ###################################################################################
 #region
 $Bloatware = @(
