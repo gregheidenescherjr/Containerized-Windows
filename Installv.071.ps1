@@ -148,9 +148,9 @@ Start-Process "cmd.exe" -File ".\Users.bat""" -Verb RunAs -Wait | Out-Null
 }1{
 Push-Location $PSScriptRoot
 }2{
+#Try to avoid CMD tools.
 
-DISKPART /S "C:\TEMP\usersT.txt" | wait-job
-Remove-Item "C:\TEMP\usersT.txt"
+
 }
 }
 #endregion
