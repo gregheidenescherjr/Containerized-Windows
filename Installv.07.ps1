@@ -17,7 +17,10 @@ if ((Get-Location).Path -NE $PSScriptRoot) { Set-Location $PSScriptRoot }
 #Suspend-BitLocker -MountPoint "C:"
 
 $host.UI.RawUI.WindowTitle = "Containerized-Windows Installer" 
-#How many files do I need? Less is more unless you can help others save resources..... How do you use natraul resources?
+#How many files do I need?
+#Less is more unless you can help others save resources..... 
+#How do you use natraul resources?
+#Powershell dumbass... K.I.S.S....
 
 #Function Test-Demo
 # {
