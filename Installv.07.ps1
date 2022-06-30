@@ -774,7 +774,7 @@ Shortcuts @ "C:\Users\Public\Documents\"
 ')}"
 Explorer.exe "C:\Users\Public\Documents\"
 Explorer.exe "C:\ProgramData\Microsoft\Windows\Containers\BaseImages"
-Write-Host " Drill Down To ...<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount tO create Sandbox "Preloaded Files""
+Write-Host " Drill Down To ...<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount to create Sandbox "Preloaded Files""
 #Resume-BitLocker -MountPoint "C:"
 pause
 Restart-Computer
@@ -828,6 +828,8 @@ $guid = [guid]::NewGuid()
 New-ModuleManifest -path .\MyModule\MyModule.psd1 -Guid $guid -Author 'Michael Halpin' -Description "Demo Module" -ModuleVersion 0.1
 
 
+
+Chris. Notes here. Sorry, Trying to keep code clean.
 "
 pause
 exit
