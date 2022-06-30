@@ -140,7 +140,7 @@ Start-Process "cmd.exe" -File ".\Users.bat""" -Verb RunAs -Wait | Out-Null
 }1{
 Push-Location $PSScriptRoot
 }2{
-#Try to avoid CMD tools.
+#Try to avoid CMD tools here.
 
 }
 }
