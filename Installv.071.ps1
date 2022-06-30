@@ -150,7 +150,6 @@ Push-Location $PSScriptRoot
 }2{
 #Try to avoid CMD tools.
 
-
 }
 }
 #endregion
