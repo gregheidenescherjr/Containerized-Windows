@@ -827,6 +827,14 @@ $guid = [guid]::NewGuid()
 New-ModuleManifest -path .\MyModule\MyModule.psd1 -Guid $guid -Author 'Michael Halpin' -Description "Demo Module" -ModuleVersion 0.1
 
 Chris. Notes here. Sorry, Trying to keep code clean.
+https://www.geeksforgeeks.org/how-to-automatically-install-required-packages-from-a-python-script/
+https://docs.python.org/3.6/using/windows.html#installing-without-ui
+
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+Invoke-WebRequest -Uri "https://www.python.org/ftp/python/3.7.0/python-3.7.0.exe" -OutFile "c:/temp/python-3.7.0.exe"
+
+c:/temp/python-3.7.0.exe /quiet InstallAllUsers=0 PrependPath=1 Include_test=0
 "
 pause
 exit
