@@ -745,39 +745,14 @@ Shortcuts @ "C:\Users\Public\Documents\"
 
 ')}"
 Explorer.exe "C:\Users\Public\Documents\"
-#Resume-BitLocker -MountPoint "C:"
-Restart-Computer
-#endregion
-
-cls
-
-###################################################################################
-# Welcome Message / Setup Complete (Double Check after Install)
-###################################################################################
-#region
-#AutoMount Drives At Startup
-#Register-ScheduledTask -xml (Get-Content "C:\Users\Public\Documents\AutoMount.xml" | Out-String) -TaskName "AutoMount" -TaskPath "C:\Windows\System32\Tasks" -Force
-
-powershell -WindowStyle hidden -Command "& {[System.Reflection.Assembly]::LoadWithPartialName('System.Windows.Forms'); [System.Windows.Forms.MessageBox]::Show('                          Containerized Windows Setup.
-    ***Sandbox User Folders: %PROGRAMDATA%\Microsoft\Windows\Containers\<GUID>
-	\BaseLayer\Files\Users\WDAGUtilityAccount\Documents***
-
-YOUR DEFAULT VIRTUAL DRIVES ARE:
-
-G:\ APPS (Portable Applications Go Here)
-H:\ DOWNLOADS (Change your default downloads user folder to "H:\Downloads")
-Y:\ EMAIL (Email Program Here - Seperate from Main OS.)
-
-Shortcuts @ "C:\Users\Public\Documents\"
-
-')}"
-Explorer.exe "C:\Users\Public\Documents\"
 Explorer.exe "C:\ProgramData\Microsoft\Windows\Containers\BaseImages"
 Write-Host "Drill Down To ...<GUID>\BaseLayer\Files\Users\WDAGUtilityAccount to create Sandbox "Preloaded Files""
 #Resume-BitLocker -MountPoint "C:"
 pause
 Restart-Computer
 #endregion
+
+cls
 
 ###################################################################################
 $host.UI.RawUI.WindowTitle = " Notes for Creator..."
